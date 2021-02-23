@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div class="col-md-4 mb-3">
+    <div class=".col-md-4 mb-3">
       <div class="card">
         <div class="card-body">
           <div class="d-flex flex-column align-items-center text-center">
-            <!-- <img src="../assets/photos/sam_test.jpg" class="rounded-circle" width="150"> -->
-            <img :src="profilePhoto" alt="Admin" class="rounded-circle" width="150">
+            <img :src="profilePhoto" alt="Admin" class="square" width="175">
             <div class="mt-3">
               <h4>{{ name }}</h4>
               <p class="text-secondary mb-1">{{ location }}</p>
@@ -47,7 +46,7 @@ export default {
   data() {
     return {
       id: 1,
-      name: 'sam',
+      name: 'Samuel',
       location: 'Detroit, MI',
       email: 'sam.teklitz@gmail.com',
       posts: [],
