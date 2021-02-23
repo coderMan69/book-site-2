@@ -4,9 +4,20 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <DisplayUser/>
+    <!-- <router-view/> -->
   </div>
 </template>
+
+<script>
+import DisplayUser from './components/DisplayUser.vue';
+
+export default {
+  components: {
+    DisplayUser,
+  },
+};
+</script>
 
 <style>
 #app {
