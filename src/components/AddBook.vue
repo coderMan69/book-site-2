@@ -29,7 +29,7 @@
                             placeholder="Enter author">
                 </b-form-input>
             </b-form-group>
-            <b-button type="submit" variant="primary">Submits</b-button>
+            <b-button type="submit" variant="primary">Submit</b-button>
             </b-form>
         </b-modal>
     </div>
