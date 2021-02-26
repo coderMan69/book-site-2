@@ -29,6 +29,16 @@
                             placeholder="Enter author (Seperate multiple with a comma)">
                 </b-form-input>
             </b-form-group>
+            <b-form-group id="form-read-group">
+              <b-form-checkbox-group v-model="book.read" id="form-checks">
+                <b-form-checkbox value="true">Read?</b-form-checkbox>
+              </b-form-checkbox-group>
+            </b-form-group>
+            <b-form-group id="form-reading-group">
+              <b-form-checkbox-group v-model="book.reading" id="form-checks">
+                <b-form-checkbox value="true">Currently Reading?</b-form-checkbox>
+              </b-form-checkbox-group>
+            </b-form-group>
             <b-button type="submit" variant="primary">Submit</b-button>
             </b-form>
         </b-modal>
@@ -48,6 +58,8 @@ export default {
       book: {
         title: '',
         author: '',
+        read: '',
+        reading: '',
         // cover: '',
       },
     };
@@ -58,6 +70,8 @@ export default {
     initBook() {
       this.book.title = '';
       this.book.author = '';
+      this.book.read = '';
+      this.book.reading = '';
     },
     addBook(payload) {
       const path = 'http://localhost:5000/books';
@@ -74,6 +88,8 @@ export default {
       const payload = {
         title: this.book.title,
         author: this.book.author.split(','),
+        read: this.book.read,
+        reading: this.book.reading,
       };
       this.addBook(payload);
       this.initBook();

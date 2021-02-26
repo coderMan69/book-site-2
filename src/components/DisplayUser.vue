@@ -22,38 +22,20 @@
 
     <div class="py-4 px-4">
       <div class="d-flex align-items-center justify-content-between mb-3">
-        <h5 class="mb-0">Books</h5>
+        <button class="mb-0" @click="toggleBooksDisplay">Books</button>
         <AddBook @book-added="getBooks"></AddBook>
       </div>
-    <div>
-    <table id="BookTable">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Image</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(book, index) in books" :key="index">
-          <td>{{book.title}}</td>
-          <td><span v-for="(author, index) in book.author" :key="index">
-            {{ author }}<br/>
-          </span></td>
-          <td>
-            <a href="http://localhost:8080">
-              <img v-if="book.cover"
-                  :src="book.cover"
-                  :title="`${book.title}\n${book.author}`">
-              <img v-else
-                    :src="noCover"
-                    :title="`${book.title}\n${book.author}`">
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
+
+      <!-- Toggle between all books and currently reading -->
+      <!-- Made the toggle the "books" button, need to make prettier later -->
+      <div v-if="showAllBooks">
+        <h5>All Books</h5>
+        <displayBooks :books="books"></displayBooks>
+      </div>
+      <div v-else>
+        <h5>Currently Reading</h5>
+        <displayBooks :books="readBooks"></displayBooks>
+      </div>
     </div>
   </div>
 </template>
@@ -61,6 +43,7 @@
 <script>
 import axios from 'axios';
 import AddBook from './AddBook.vue';
+import DisplayBooks from './DisplayBooks.vue';
 
 export default {
   data() {
@@ -72,14 +55,15 @@ export default {
       posts: [],
       /* eslint-disable global-require */
       profilePhoto: require('../assets/photos/cat_man.jpg'),
-      noCover: require('../assets/photos/no_cover.jpg'),
       friends: [],
       books: [],
+      showAllBooks: true,
     };
   },
   name: 'DisplayUser',
   components: {
     AddBook,
+    DisplayBooks,
   },
   created() {
     this.getBooks();
@@ -96,6 +80,15 @@ export default {
         // eslint-disable-next-line
           console.error(error);
         });
+    },
+    // Display all books or only ready books
+    toggleBooksDisplay() {
+      this.showAllBooks = !this.showAllBooks;
+    },
+  },
+  computed: {
+    readBooks() {
+      return this.books.filter((book) => book.reading);
     },
   },
 };

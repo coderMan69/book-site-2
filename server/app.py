@@ -19,12 +19,16 @@ BOOKS = [
         'title': 'Moby Dick',
         'author': ['Herman Melville'],
         'cover': 'https://www.gutenberg.org/cache/epub/2701/pg2701.cover.medium.jpg',
+        'read': '',
+        'reading': 'true',
     },
     {
         'id': uuid.uuid4().hex,
         'title': 'The Adventures of Huckleberry Finn',
         'author': ['Mark Twain'],
         'cover': 'https://www.gutenberg.org/cache/epub/76/pg76.cover.small.jpg',
+        'read': 'true',
+        'reading': '',
     }
 ]
 
@@ -44,7 +48,9 @@ def all_books():
         BOOKS.append({
             'id': uuid.uuid4().hex,
             'title': post_data.get('title'),
-            'author': post_data.get('author')
+            'author': post_data.get('author'),
+            'read': post_data.get('read'),
+            'reading': post_data.get('reading'),
         })
         response_object['message'] = 'Book added!'
     else:
