@@ -1,9 +1,9 @@
 <template>
     <div>
         <div>
-            <b-alert dismissible v-show="showMessage">{{ message }}</b-alert>
+            <b-alert dismissible show v-show="showMessage">{{ message }}</b-alert>
         </div>
-        <button @click="addBook(book)" v-b-modal.book-modal>Add</button>
+        <button v-b-modal.book-modal>Add a Book</button>
         <b-modal ref="addBookModal"
                 id="book-modal"
                 title="Add a new book"
@@ -43,6 +43,8 @@ export default {
     return {
       message: '',
       showMessage: false,
+      /* Will need to add ability to upload a file if we want user to be
+       able to add a book cover */
       book: {
         title: '',
         author: '',
@@ -60,8 +62,8 @@ export default {
     addBook(payload) {
       const path = 'http://localhost:5000/books';
       axios.post(path, payload)
-        .then(() => {
-          this.message = 'Book added!';
+        .then((res) => {
+          this.message = res.data.message;
           this.showMessage = true;
           this.$emit('book-added');
         });
@@ -76,15 +78,6 @@ export default {
       this.addBook(payload);
       this.initBook();
     },
-    /*
-    addBook(book) {
-      if(book !== "") {
-        this.$emit('book-added', book)
-        console.log('added ' + book)
-      }
-      else
-        alert("Please fill out the book field!")
-    } */
   },
 };
 </script>

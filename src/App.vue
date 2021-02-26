@@ -1,23 +1,14 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <DisplayUser/>
-    <!-- <router-view/> -->
+    <nav id="nav" class="navbar navbar-dark bg-dark">
+      <div class="container">
+        <router-link to="/">Profile</router-link> |
+        <router-link to="/about">About</router-link>
+      </div>
+    </nav>
+    <router-view/>
   </div>
 </template>
-
-<script>
-import DisplayUser from './components/DisplayUser.vue';
-
-export default {
-  components: {
-    DisplayUser,
-  },
-};
-</script>
 
 <style>
 #app {
@@ -34,7 +25,7 @@ export default {
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #818181;
 }
 
 #nav a.router-link-exact-active {
