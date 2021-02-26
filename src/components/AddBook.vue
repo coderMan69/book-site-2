@@ -26,7 +26,7 @@
                             type="text"
                             v-model="book.author"
                             required
-                            placeholder="Enter author">
+                            placeholder="Enter author (Seperate multiple with a comma)">
                 </b-form-input>
             </b-form-group>
             <b-button type="submit" variant="primary">Submit</b-button>
@@ -73,7 +73,7 @@ export default {
       this.$refs.addBookModal.hide();
       const payload = {
         title: this.book.title,
-        author: this.book.author,
+        author: this.book.author.split(','),
       };
       this.addBook(payload);
       this.initBook();
