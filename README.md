@@ -20,5 +20,18 @@ npm run build
 npm run lint
 ```
 
+### Run Locally
+In /server run
+```
+python app.py
+```
+In /book-site-2 run:
+```
+npm run serve
+```
+Site will launch at localhost:8080
+
+
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

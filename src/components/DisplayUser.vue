@@ -31,16 +31,29 @@
         <AddBook @book-added="getBooks"></AddBook>
         <a href="#" class="btn btn-link text-muted">Show all</a>
       </div>
-
-      <div class="col-lg-6 mb-2 pr-lg-1" v-for="(book, index) in books" :key="index">
-        <!-- Link will become link to that book's page -->
-        <a v-if="book.cover" href="http://localhost:8080">
+    <div>
+    <table id="BookTable">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Image</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(book, index) in books" :key="index">
+          <td>{{book.title}}</td>
+          <td>{{book.author}}</td>
+          <td><a v-if="book.cover" href="http://localhost:8080">
           <img :src="book.cover" :title="`${book.title}\n${book.author}`">
-        </a>
-        <!-- if the book doesnt have a cover, that means it was a user created book -->
-        <!-- That won't have a book page so no link -->
-        <p v-else :title="`${book.title}\n${book.author}`">{{ book.title }}</p>
-      </div>
+          </a>
+          <!-- if the book doesnt have a cover, that means it was a user created book -->
+          <!-- That won't have a book page so no link -->
+          <p v-else :title="`${book.title}\n${book.author}`">{{ book.title }}</p></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
     </div>
   </div>
 </template>
