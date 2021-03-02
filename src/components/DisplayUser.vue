@@ -47,7 +47,6 @@ import DisplayBooks from './DisplayBooks.vue';
 export default {
   data() {
     return {
-      id: '',
       name: '',
       location: '',
       email: '',
@@ -58,6 +57,8 @@ export default {
       books: [],
       showAllBooks: true,
       user: [],
+
+      // Can set userID to 0 or 1 at the momment
       userID: 2,
     };
   },
@@ -87,7 +88,6 @@ export default {
       axios.get(path)
         .then((res) => {
           this.user = res.data.user;
-          this.id = res.data.user.id;
           this.name = res.data.user.name;
           this.location = res.data.user.location;
           this.email = res.data.user.email;
