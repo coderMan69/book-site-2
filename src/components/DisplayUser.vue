@@ -47,16 +47,18 @@ import DisplayBooks from './DisplayBooks.vue';
 export default {
   data() {
     return {
-      id: 1,
-      name: 'Samuel',
-      location: 'Detroit, MI',
-      email: 'sam.teklitz@gmail.com',
-      posts: [],
+      id: '',
+      name: '',
+      location: '',
+      email: '',
+      // posts: [],
       /* eslint-disable global-require */
-      profilePhoto: require('@/assets/photos/cat_man.jpg'),
-      friends: [],
+      profilePhoto: '',
+      // friends: [],
       books: [],
       showAllBooks: true,
+      user: [],
+      userID: 2,
     };
   },
   name: 'DisplayUser',
@@ -65,14 +67,31 @@ export default {
     DisplayBooks,
   },
   created() {
-    this.getBooks();
+    this.getBooks(this.userID);
+    this.getUser(this.userID);
   },
   methods: {
-    getBooks() {
-      const path = 'http://localhost:5000/books';
+    getBooks(userID) {
+      const path = `http://localhost:5000/books/${userID}`;
       axios.get(path)
         .then((res) => {
           this.books = res.data.books;
+        })
+        .catch((error) => {
+        // eslint-disable-next-line
+          console.error(error);
+        });
+    },
+    getUser(userID) {
+      const path = `http://localhost:5000/user/${userID}`;
+      axios.get(path)
+        .then((res) => {
+          this.user = res.data.user;
+          this.id = res.data.user.id;
+          this.name = res.data.user.name;
+          this.location = res.data.user.location;
+          this.email = res.data.user.email;
+          this.profilePhoto = res.data.user.profile_photo;
         })
         .catch((error) => {
         // eslint-disable-next-line
