@@ -8,8 +8,7 @@
               <a href="http://localhost:8080">
                 <img :src="profilePhoto" alt="Admin" class="square" width="175">
               </a>
-              <h4>Books:</h4>
-              <h6>{{ books.length }}</h6>
+              <h4>{{ books.length }} Books</h4>
             </div>
             <div class="mt-3">
               <h4>{{ name }}</h4>
@@ -54,7 +53,7 @@ export default {
       email: 'sam.teklitz@gmail.com',
       posts: [],
       /* eslint-disable global-require */
-      profilePhoto: require('../assets/photos/cat_man.jpg'),
+      profilePhoto: require('@/assets/photos/cat_man.jpg'),
       friends: [],
       books: [],
       showAllBooks: true,
@@ -74,7 +73,6 @@ export default {
       axios.get(path)
         .then((res) => {
           this.books = res.data.books;
-          // console.log(this.books);
         })
         .catch((error) => {
         // eslint-disable-next-line
