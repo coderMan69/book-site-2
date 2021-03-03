@@ -8,6 +8,9 @@
               <a href="http://localhost:8080">
                 <img :src="profilePhoto" alt="Admin" class="square" width="175">
               </a>
+              <EditProfile :id="userID" @profile-edited="refreshUser">
+                Edit Profile
+              </EditProfile>
               <h4>{{ books.length }} Books</h4>
             </div>
             <div class="mt-3">
@@ -43,6 +46,7 @@
 import axios from 'axios';
 import AddBook from './AddBook.vue';
 import DisplayBooks from './DisplayBooks.vue';
+import EditProfile from './EditProfile.vue';
 
 export default {
   data() {
@@ -58,14 +62,15 @@ export default {
       showAllBooks: true,
       user: [],
 
-      // Can set userID to 0 or 1 at the momment
-      userID: 2,
+      // Can set userID to 0 or 1 at the moment
+      userID: 1,
     };
   },
   name: 'DisplayUser',
   components: {
     AddBook,
     DisplayBooks,
+    EditProfile,
   },
   created() {
     this.getBooks(this.userID);
@@ -83,6 +88,9 @@ export default {
           console.error(error);
         });
     },
+    refreshUser() {
+      this.getUser(this.userID);
+    },
     getUser(userID) {
       const path = `http://localhost:5000/user/${userID}`;
       axios.get(path)
@@ -94,7 +102,7 @@ export default {
           this.profilePhoto = res.data.user.profile_photo;
         })
         .catch((error) => {
-        // eslint-disable-next-line
+          // eslint-disable-next-line
           console.error(error);
         });
     },
