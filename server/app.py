@@ -18,13 +18,15 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 class Book:
 
     def __init__(self):
+        self.id = ''
         self.title = ''
         self.author = []
         self.cover = ''
         self.read = ''
         self.reading = ''
 
-    def __init__(self, read, reading):
+    def __init__(self, id, read, reading):
+        self.id = id
         self.title = ''
         self.author = []
         self.cover = ''
@@ -35,7 +37,8 @@ class Book:
         return json.loads(json.dumps(self, default=lambda o: o.__dict__))
 
     def print(self):
-        print("Title: " + str(self.title) +
+        print("Id: " + str(self.id) +
+              "\nTitle: " + str(self.title) +
               "\nAuthor: " + str(self.author) +
               "\nRead: " + str(self.read) +
               "\nReading: " + str(self.reading) +
@@ -90,7 +93,7 @@ def user_books(reader_id):
     for book in books:
         auth_id = []
         book_key = book[0]
-        book_object = Book(book[1], book[2])
+        book_object = Book(book_key, book[1], book[2])
 
         # Look up book in books table
         cursor.execute('SELECT title,cover FROM books WHERE id=' + str(book_key))
@@ -142,12 +145,56 @@ def all_users(user_id):
         response_object['user'] = user
     else:
         put_data = request.get_json()
-        command = ("UPDATE readers SET name = '" + str(put_data.get('name')) +
-                   "', email = '" + str(put_data.get('email')) +
-                   "', location = '" + str(put_data.get('location')) +
-                   "' WHERE id = " + str(put_data.get('id')))
-        cursor.execute(command)
+        cursor.execute("UPDATE readers SET name = '" + str(put_data.get('name')) +
+                       "', email = '" + str(put_data.get('email')) +
+                       "', location = '" + str(put_data.get('location')) +
+                       "' WHERE id = " + str(put_data.get('id')))
         conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify(response_object)
+
+@app.route('/reader_book/<user_id>/<book_id>', methods=['GET'])
+def get_readers_authors(user_id, book_id):
+    response_object = {'status': 'success'}
+    conn = mysql.connector.connect(
+        host=HOST,
+        user=USER,
+        passwd=PASSWD,
+        database=DATABASE
+    )
+    cursor = conn.cursor()
+    cursor.execute('SELECT red, reading FROM readers_books WHERE reader_id = ' + str(user_id) +
+                   ' and book_id = ' + str(book_id))            
+    # Should only be one match
+    for (read, reading) in cursor:
+        book_info = {
+            'read': read,
+            'reading': reading,
+        }
+    
+    response_object['read'] = book_info['read']
+    response_object['reading'] = book_info['reading']
+    cursor.close()
+    conn.close()
+    return jsonify(response_object)
+
+@app.route('/reader_book', methods=['PUT'])
+def update_readers_authors():
+    response_object = {'status': 'success'}
+    post_data = request.get_json()
+    conn = mysql.connector.connect(
+        host=HOST,
+        user=USER,
+        passwd=PASSWD,
+        database=DATABASE
+    )
+    cursor = conn.cursor()
+    cursor.execute("UPDATE readers_books SET red = '" + str(post_data.get('read')) +
+                   "', reading = '" + str(post_data.get('reading')) +
+                   "' WHERE reader_id = " + str(post_data.get('reader_id')) +
+                   " and book_id = " + str(post_data.get('book_id')))
+    conn.commit()
     cursor.close()
     conn.close()
     return jsonify(response_object)

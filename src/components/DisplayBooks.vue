@@ -5,6 +5,7 @@
             <th>Title</th>
             <th>Author</th>
             <th>Image</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -23,12 +24,16 @@
                       :title="`${book.title}\n${book.author}`">
               </a>
             </td>
+            <td>
+              <EditBook @book-edited="emit" :book="book" :userId="userID">Edit</EditBook>
+            </td>
           </tr>
         </tbody>
       </table>
 </template>
 
 <script>
+import EditBook from './EditBook.vue';
 
 export default {
   props: {
@@ -36,6 +41,13 @@ export default {
       type: Array,
       required: true,
     },
+    userID: {
+      type: Number,
+      required: true,
+    },
+  },
+  components: {
+    EditBook,
   },
   data() {
     return {
@@ -44,5 +56,11 @@ export default {
     };
   },
   name: 'displayBooks',
+  emits: ['book-edited'],
+  methods: {
+    emit() {
+      this.$emit('book-edited');
+    },
+  },
 };
 </script>

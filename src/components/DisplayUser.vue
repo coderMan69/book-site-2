@@ -32,11 +32,14 @@
       <!-- Made the toggle the "books" button, need to make prettier later -->
       <div v-if="showAllBooks">
         <h5>All Books</h5>
-        <displayBooks :books="books"></displayBooks>
+        <DisplayBooks @book-edited="refreshBooks" :books="books" :userID="userID"></DisplayBooks>
       </div>
       <div v-else>
         <h5>Currently Reading</h5>
-        <displayBooks :books="readBooks"></displayBooks>
+        <DisplayBooks @book-edited="refreshBooks"
+                      :books="readBooks"
+                      :userID="userID">
+        </DisplayBooks>
       </div>
     </div>
   </div>
@@ -63,7 +66,7 @@ export default {
       user: [],
 
       // Can set userID to 0 or 1 at the moment
-      userID: 1,
+      userID: 2,
     };
   },
   name: 'DisplayUser',
@@ -77,6 +80,9 @@ export default {
     this.getUser(this.userID);
   },
   methods: {
+    refreshBooks() {
+      this.getBooks(this.userID);
+    },
     getBooks(userID) {
       const path = `http://localhost:5000/books/${userID}`;
       axios.get(path)

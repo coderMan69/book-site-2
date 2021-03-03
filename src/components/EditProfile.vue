@@ -85,7 +85,6 @@ export default {
         location: this.location,
         email: this.email,
       };
-      console.log(payload.id);
       this.editUser(payload);
       this.initUser();
     },
