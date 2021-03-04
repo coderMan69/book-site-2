@@ -119,6 +119,9 @@ export default {
   },
   computed: {
     readBooks() {
+      return this.books.filter((book) => book.read);
+    },
+    readingBooks() {
       return this.books.filter((book) => book.reading);
     },
   },

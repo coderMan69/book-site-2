@@ -5,12 +5,27 @@
                  :id=modalId
                  :title=modalTitle
                  hide-footer>
-                 {{book.title}}
-                 <br/>
-                 <span v-for="(author, index) in book.author" :key="index">{{author}}</span>
-                 {{ read[0] }}
-                 {{ reading[0] }}
             <b-form @submit="onSubmit" @reset="onReset">
+                <b-form-group id="form-title-group"
+                              label="Title:"
+                              label-for="form-title-input">
+                    <b-form-input id="form-title-input"
+                                  type="text"
+                                  :placeholder="book.title"
+                                  required
+                                  readonly>
+                    </b-form-input>
+                </b-form-group>
+                <b-form-group id="form-author-group"
+                              label="Author:"
+                              label-for="form-author-input">
+                    <b-form-input id="form-author-input"
+                                  type="text"
+                                  :placeholder="authorsString"
+                                  required
+                                  readonly>
+                    </b-form-input>
+                </b-form-group>
                 <b-form-group id="form-read-group">
                     <b-form-checkbox-group v-model="read" id="form-checks">
                         <b-form-checkbox value="true">Read?</b-form-checkbox>
@@ -57,6 +72,14 @@ export default {
     },
     modalId() {
       return `edit-${this.book.title}-Modal`;
+    },
+    authorsString() {
+      let returnAuthors = this.book.author[0];
+      for (let i = 1; i < this.book.author.length; i += 1) {
+        returnAuthors += ', ';
+        returnAuthors.concat(this.book.author[i]);
+      }
+      return returnAuthors;
     },
   },
   created() {
