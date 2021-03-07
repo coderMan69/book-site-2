@@ -1,5 +1,6 @@
 <template>
 <div class="column is-4 is-offset-4">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
     <h3 class="title">Login</h3>
     <div class="box">
         <form method="POST" action="/login">
