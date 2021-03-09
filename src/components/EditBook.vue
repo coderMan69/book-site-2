@@ -2,8 +2,8 @@
     <div>
         <button v-b-modal="modalId">Edit Book</button>
         <b-modal ref="editBookModal"
-                 :id=modalId
-                 :title=modalTitle
+                 :id="modalId"
+                 :title="modalTitle"
                  hide-footer>
             <b-form @submit="onSubmit" @reset="onReset">
                 <b-form-group id="form-title-group"
@@ -56,6 +56,10 @@ export default {
       type: Number,
       required: true,
     },
+    fixButton: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -68,10 +72,10 @@ export default {
       return `Edit ${this.book.title}`;
     },
     modalRef() {
-      return `edit${this.book.title}Modal`;
+      return `edit${this.book.title}${this.fixButtonModal}`;
     },
     modalId() {
-      return `edit-${this.book.title}-Modal`;
+      return `edit-${this.book.title}-${this.fixButton}-Modal`;
     },
     authorsString() {
       let returnAuthors = this.book.author[0];

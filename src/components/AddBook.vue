@@ -26,8 +26,11 @@
                             type="text"
                             v-model="book.author"
                             required
-                            placeholder="Enter author (Seperate multiple with a comma)">
+                            placeholder="Enter author">
                 </b-form-input>
+                <small class="form-text text-muted">
+                  If multiple authors, seperate each with a comma
+                </small>
             </b-form-group>
             <b-form-group id="form-read-group">
               <b-form-checkbox-group v-model="book.read" id="form-checks">

@@ -120,8 +120,8 @@ def user_books(reader_id):
     return jsonify(response_object)
 
 
-@app.route('/user/<user_id>', methods=['GET', 'PUT'])
-def all_users(user_id):
+@app.route('/readers/<user_id>', methods=['GET'])
+def get_readers(user_id):
     response_object = {'status': 'success'}
     conn = mysql.connector.connect(
         host=HOST,
@@ -130,26 +130,38 @@ def all_users(user_id):
         database=DATABASE
     )
     cursor = conn.cursor()
-    if request.method == 'GET':
-        user = None
-
+    user = None
         # ADD ERROR: if more than one user is found
-        cursor.execute('SELECT name, email, location, profile_photo FROM readers WHERE id=' + str(user_id))
-        for (name, email, location, photo) in cursor:
-            user = {
-                'name': name,
-                'email': email,
-                'location': location,
-                'profile_photo': photo
-            }
-        response_object['user'] = user
-    else:
-        put_data = request.get_json()
-        cursor.execute("UPDATE readers SET name = '" + str(put_data.get('name')) +
-                       "', email = '" + str(put_data.get('email')) +
-                       "', location = '" + str(put_data.get('location')) +
-                       "' WHERE id = " + str(put_data.get('id')))
-        conn.commit()
+    cursor.execute('SELECT * FROM readers WHERE id=' + str(user_id))
+    for (id, name, email, location, photo) in cursor:
+        user = {
+            'id': id,
+            'name': name,
+            'email': email,
+            'location': location,
+            'profile_photo': photo
+        }
+    response_object['user'] = user
+    cursor.close()
+    conn.close()
+    return jsonify(response_object)
+
+@app.route('/readers', methods=['PUT'])
+def update_readers():
+    response_object = {'status': 'success'}
+    conn = mysql.connector.connect(
+        host=HOST,
+        user=USER,
+        passwd=PASSWD,
+        database=DATABASE
+    )
+    cursor = conn.cursor()
+    put_data = request.get_json()
+    cursor.execute("UPDATE readers SET name = '" + str(put_data.get('name')) +
+                    "', email = '" + str(put_data.get('email')) +
+                    "', location = '" + str(put_data.get('location')) +
+                    "' WHERE id = " + str(put_data.get('id')))
+    conn.commit()
     cursor.close()
     conn.close()
     return jsonify(response_object)
