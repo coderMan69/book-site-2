@@ -1,9 +1,9 @@
 <template>
     <div>
-        <button v-b-modal="modalId">Edit Book</button>
+        <button v-b-modal="modalId" @click="initBook">Edit Book</button>
         <b-modal ref="editBookModal"
-                 :id=modalId
-                 :title=modalTitle
+                 :id="modalId"
+                 :title="modalTitle"
                  hide-footer>
             <b-form @submit="onSubmit" @reset="onReset">
                 <b-form-group id="form-title-group"
@@ -56,6 +56,10 @@ export default {
       type: Number,
       required: true,
     },
+    fixButton: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -68,10 +72,10 @@ export default {
       return `Edit ${this.book.title}`;
     },
     modalRef() {
-      return `edit${this.book.title}Modal`;
+      return `edit${this.book.title}${this.fixButtonModal}`;
     },
     modalId() {
-      return `edit-${this.book.title}-Modal`;
+      return `edit-${this.book.title}-${this.fixButton}-Modal`;
     },
     authorsString() {
       let returnAuthors = this.book.author[0];
@@ -81,9 +85,6 @@ export default {
       }
       return returnAuthors;
     },
-  },
-  created() {
-    this.initBook();
   },
   methods: {
     initBook() {
@@ -115,8 +116,6 @@ export default {
         read,
         reading,
       };
-      // console.log(payload);
-      // console.log(payload.book_id);
       this.editBook(payload);
     },
     editBook(payload) {
@@ -124,17 +123,14 @@ export default {
       axios.put(path, payload)
         .then(() => {
           this.$emit('book-edited');
-          this.initBook();
         })
         .catch((error) => {
           console.error(error);
-          this.initBook();
         });
     },
     onReset(evt) {
       evt.preventDefault();
       this.$refs.editBookModal.hide();
-      this.initBook();
     },
   },
 };

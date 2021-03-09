@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button v-b-modal.edit-profile-modal>Edit Profile</button>
+        <button v-b-modal.edit-profile-modal @click="initUser">Edit Profile</button>
         <b-modal ref="editProfileModal"
                  id="edit-profile-modal"
                  title="Edit Profile"
@@ -11,7 +11,7 @@
                             label-for="form-name-input">
                     <b-form-input id="form-name-input"
                                 type="text"
-                                v-model="name"
+                                v-model="user.name"
                                 required>
                     </b-form-input>
                 </b-form-group>
@@ -19,8 +19,8 @@
                             label="Email:"
                             label-for="form-email-input">
                     <b-form-input id="form-email-input"
-                                type="text"
-                                v-model="email"
+                                type="email"
+                                v-model="user.email"
                                 required>
                     </b-form-input>
                 </b-form-group>
@@ -29,10 +29,17 @@
                             label-for="form-location-input">
                     <b-form-input id="form-location-input"
                                 type="text"
-                                v-model="location"
+                                v-model="user.location"
                                 required>
                     </b-form-input>
                 </b-form-group>
+                <b-form-file
+                  :v-model="file"
+                  :state="Boolean(file)"
+                  placeholder="Chose a file or drop it here..."
+                  drop-placeholder="Drop file here...">
+                </b-form-file>
+                <div>Selected file: {{ file ? file.name : '' }}</div>
                 <b-button type="submit" variant="primary">Submit</b-button>
                 <b-button type="reset" variant="danger">Cancel</b-button>
             </b-form>
@@ -46,30 +53,25 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      name: '',
-      location: '',
-      email: '',
+      user: {},
+      file: null,
     };
   },
   props: {
-    id: {
+    userId: {
       type: Number,
       required: true,
     },
-  },
-  created() {
-    this.initUser();
   },
   name: 'EditProfile',
   emits: ['profile-edited'],
   methods: {
     initUser() {
-      const path = `http://localhost:5000/user/${this.id}`;
+      const path = `http://localhost:5000/readers/${this.userId}`;
+      console.log(`editProfile ${path}`);
       axios.get(path)
         .then((res) => {
-          this.name = res.data.user.name;
-          this.location = res.data.user.location;
-          this.email = res.data.user.email;
+          this.user = res.data.user;
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -80,16 +82,16 @@ export default {
       evt.preventDefault();
       this.$refs.editProfileModal.hide();
       const payload = {
-        id: this.id,
-        name: this.name,
-        location: this.location,
-        email: this.email,
+        id: this.user.id,
+        name: this.user.name,
+        location: this.user.location,
+        email: this.user.email,
       };
       this.editUser(payload);
-      this.initUser();
     },
     editUser(payload) {
-      const path = `http://localhost:5000/user/${payload.id}`;
+      const path = 'http://localhost:5000/readers';
+      console.log(`fukc ${path}`);
       axios.put(path, payload)
         .then(() => {
           this.$emit('profile-edited');
@@ -101,7 +103,6 @@ export default {
     onReset(evt) {
       evt.preventDefault();
       this.$refs.editProfileModal.hide();
-      this.initUser();
     },
   },
 };
