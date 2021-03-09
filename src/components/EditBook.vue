@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button v-b-modal="modalId">Edit Book</button>
+        <button v-b-modal="modalId" @click="initBook">Edit Book</button>
         <b-modal ref="editBookModal"
                  :id="modalId"
                  :title="modalTitle"
@@ -86,9 +86,6 @@ export default {
       return returnAuthors;
     },
   },
-  created() {
-    this.initBook();
-  },
   methods: {
     initBook() {
       const path = `http://localhost:5000/reader_book/${this.userId}/${this.book.id}`;
@@ -119,8 +116,6 @@ export default {
         read,
         reading,
       };
-      // console.log(payload);
-      // console.log(payload.book_id);
       this.editBook(payload);
     },
     editBook(payload) {
@@ -128,17 +123,14 @@ export default {
       axios.put(path, payload)
         .then(() => {
           this.$emit('book-edited');
-          this.initBook();
         })
         .catch((error) => {
           console.error(error);
-          this.initBook();
         });
     },
     onReset(evt) {
       evt.preventDefault();
       this.$refs.editBookModal.hide();
-      this.initBook();
     },
   },
 };

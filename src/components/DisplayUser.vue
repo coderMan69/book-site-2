@@ -6,7 +6,7 @@
           <div class="d-flex flex-column align-items-center text-center">
             <div class="container">
               <a href="http://localhost:8080">
-                <img :src="profilePhoto" alt="Admin" class="square mb-3" width="175">
+                <img :src="profilePhoto" alt="Admin" class="rounded mb-3" width="175">
               </a>
             </div>
             <div class="mt-3">
@@ -22,8 +22,7 @@
                   <h4 v-if="books.length !== 1" class="mx-3">{{ books.length }} books</h4>
                   <h4 v-else class="ml-3">{{ books.length }} book</h4>
                 </a>
-                <!-- Add books does not work, waiting till we have a db filled with books
-                that the user could add before worrying about this -->
+                <!-- Add books does not work -->
                 <AddBook class="ml-3" @book-added="getBooks"></AddBook>
               </div>
               <p class="text-secondary mb-1">{{ location }}</p>
@@ -32,10 +31,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Changing the read and reading will make the books apear in the correct tab
-        but if you edit a book, go to a new tab and edit the same book. the changes will
-        not apear -->
 
     <div class="tabs">
       <b-nav tabs align="center">
@@ -99,11 +94,9 @@ export default {
       location: '',
       email: '',
       // posts: [],
-      /* eslint-disable global-require */
       profilePhoto: '',
       // friends: [],
       books: [],
-      showAllBooks: true,
       user: {},
 
       // Can set userID to 1 or 2 at the moment
@@ -153,10 +146,6 @@ export default {
           // eslint-disable-next-line
           console.error(error);
         });
-    },
-    // Display all books or only ready books
-    toggleBooksDisplay() {
-      this.showAllBooks = !this.showAllBooks;
     },
   },
   computed: {

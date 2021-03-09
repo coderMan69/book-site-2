@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button v-b-modal.edit-profile-modal>Edit Profile</button>
+        <button v-b-modal.edit-profile-modal @click="initUser">Edit Profile</button>
         <b-modal ref="editProfileModal"
                  id="edit-profile-modal"
                  title="Edit Profile"
@@ -63,9 +63,6 @@ export default {
       required: true,
     },
   },
-  created() {
-    this.initUser();
-  },
   name: 'EditProfile',
   emits: ['profile-edited'],
   methods: {
@@ -81,13 +78,6 @@ export default {
           console.error(error);
         });
     },
-
-    /* Doesnt update the edit profile fields immidiately
-      changing data
-      replicate: edit profile, change something, submit, edit profile again
-      and the changes will not show until you click cancel, not sure why
-      */
-
     onSubmit(evt) {
       evt.preventDefault();
       this.$refs.editProfileModal.hide();
@@ -98,7 +88,6 @@ export default {
         email: this.user.email,
       };
       this.editUser(payload);
-      this.initUser();
     },
     editUser(payload) {
       const path = 'http://localhost:5000/readers';
@@ -114,7 +103,6 @@ export default {
     onReset(evt) {
       evt.preventDefault();
       this.$refs.editProfileModal.hide();
-      this.initUser();
     },
   },
 };
