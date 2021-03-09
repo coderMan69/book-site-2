@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect, url_for
 from flask_cors import CORS
 import uuid
 from datetime import datetime
@@ -88,7 +88,7 @@ def user_books(reader_id):
     cursor.execute('SELECT book_id,red,reading FROM readers_books WHERE reader_id=' + str(reader_id))
     for row in cursor:
         books.append(row)
-    
+
     # For each book id recieved, get details
     for book in books:
         auth_id = []
@@ -165,14 +165,14 @@ def get_readers_authors(user_id, book_id):
     )
     cursor = conn.cursor()
     cursor.execute('SELECT red, reading FROM readers_books WHERE reader_id = ' + str(user_id) +
-                   ' and book_id = ' + str(book_id))            
+                   ' and book_id = ' + str(book_id))
     # Should only be one match
     for (read, reading) in cursor:
         book_info = {
             'read': read,
             'reading': reading,
         }
-    
+
     response_object['read'] = book_info['read']
     response_object['reading'] = book_info['reading']
     cursor.close()
@@ -212,6 +212,26 @@ def all_posts():
     else:
         response_object['posts'] = POSTS
     return jsonify(response_object)
+
+@app.route('/login_auth', methods=['GET'])
+def login_post():
+
+    conn = mysql.connector.connect(
+        host=HOST,
+        user=USER,
+        passwd=PASSWD,
+        database=DATABASE
+    )
+    email = request.args.get('email')
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT id FROM readers where email='{email}'")
+
+    user_id = cursor.fetchone()
+    if not user_id:
+        return {'status': 'failed: invalid login'}
+
+    # if the above check passes, then we know the user has the right credentials
+    return {'status': f'success: redirecting to {user_id}'}
 
 if __name__ == '__main__':
     app.run()
