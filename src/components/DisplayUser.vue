@@ -23,7 +23,7 @@
                   <h4 v-else class="ml-3">{{ books.length }} book</h4>
                 </a>
                 <!-- Add books does not work -->
-                <AddBook class="ml-3" @book-added="getBooks"></AddBook>
+                <AddBook :userID="userID" class="ml-3" @book-added="refreshBooks"></AddBook>
               </div>
               <p class="text-secondary mb-1">{{ location }}</p>
             </div>
@@ -100,7 +100,7 @@ export default {
       user: {},
 
       // Can set userID to 1 or 2 at the moment
-      userID: 2,
+      userID: 1,
     };
   },
   name: 'DisplayUser',

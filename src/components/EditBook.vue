@@ -1,6 +1,7 @@
 <template>
     <div>
         <button v-b-modal="modalId" @click="initBook">Edit Book</button>
+        <button @click="removeBook">Remove Book</button>
         <b-modal ref="editBookModal"
                  :id="modalId"
                  :title="modalTitle"
@@ -110,6 +111,7 @@ export default {
       this.$refs.editBookModal.hide();
       const read = this.read.length > 0 ? 1 : 0;
       const reading = this.reading.length > 0 ? 1 : 0;
+      console.log(this.book);
       const payload = {
         reader_id: this.userId,
         book_id: this.book.id,
@@ -131,6 +133,21 @@ export default {
     onReset(evt) {
       evt.preventDefault();
       this.$refs.editBookModal.hide();
+    },
+    removeBook() {
+      const path = 'http://localhost:5000/dl_book';
+      const payload = {
+        userID: this.userId,
+        bookID: this.book.id,
+      };
+      console.log(payload);
+      axios.delete(path, { data: payload })
+        .then(() => {
+          this.$emit('book-edited');
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
   },
 };

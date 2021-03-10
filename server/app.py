@@ -57,18 +57,38 @@ USER = 'devinBooker'
 PASSWD = 'poopy69Devco'
 DATABASE = 'book_db_69'
 
-@app.route('/books', methods=['POST'])
+@app.route('/books', methods=['GET', 'POST'])
 def all_books():
     response_object = {'status': 'success'}
-    post_data = request.get_json()
-    BOOKS.append({
-        'id': uuid.uuid4().hex,
-        'title': post_data.get('title'),
-        'author': post_data.get('author'),
-        'read': post_data.get('read'),
-        'reading': post_data.get('reading'),
-    })
-    response_object['message'] = 'Book added!'
+    if request.method == 'POST':
+        post_data = request.get_json()
+        BOOKS.append({
+            'id': uuid.uuid4().hex,
+            'title': post_data.get('title'),
+            'author': post_data.get('author'),
+            'read': post_data.get('read'),
+            'reading': post_data.get('reading'),
+        })
+        response_object['message'] = 'Book added!'
+    else:
+        books = []
+        conn = mysql.connector.connect(
+            host=HOST,
+            user=USER,
+            passwd=PASSWD,
+            database=DATABASE
+        )
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, title FROM books")
+        for (book_id, title) in cursor:
+            books.append({
+                'id': book_id,
+                'title': title
+            })
+        response_object['books'] = books
+        cursor.close()
+        conn.close()
+        return jsonify(response_object)
 
 @app.route('/books/<reader_id>', methods=['GET'])
 def user_books(reader_id):
@@ -210,6 +230,62 @@ def update_readers_authors():
     cursor.close()
     conn.close()
     return jsonify(response_object)
+
+@app.route('/add_book', methods=['POST'])
+def add_book_to_user():
+    response_object = {'status': 'success'}
+    post_data = request.get_json()
+    try:
+        conn = mysql.connector.connect(
+            host=HOST,
+            user=USER,
+            passwd=PASSWD,
+            database=DATABASE
+        )
+        cursor = conn.cursor()
+
+        cursor.execute("INSERT INTO readers_books VALUES ("
+                        + str(post_data.get('readerID')) + ","
+                        + str(post_data.get('bookID')) + ","
+                        + str(post_data.get('read')) + ","
+                        + str(post_data.get('reading')) + ")")
+        conn.commit()
+        response_object['message'] = 'Book added'
+        response_object['added'] = 'yes'
+
+        cursor.close()
+        conn.close()
+
+    except mysql.connector.Error as err:
+        if(vars(err)['errno'] == 1062):
+            response_object['message'] = 'Book already added'
+            response_object['added'] = ''
+        else:
+            # Log error
+            print(err)
+
+    return jsonify(response_object)
+
+@app.route('/dl_book', methods=['DELETE'])
+def remove_book():
+    response_object = {'status': 'success'}
+    post_data = request.get_json()
+    conn = mysql.connector.connect(
+            host=HOST,
+            user=USER,
+            passwd=PASSWD,
+            database=DATABASE
+        )
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM readers_books WHERE "
+                    + "reader_id = " + str(post_data.get('userID'))
+                    + " and book_id = " + str(post_data.get("bookID")))
+    conn.commit()
+    print(cursor.rowcount, "record(s) deleted")
+    cursor.close()
+    conn.close()
+    return response_object
+
 
 @app.route('/posts', methods=['GET', 'POST'])
 def all_posts():
