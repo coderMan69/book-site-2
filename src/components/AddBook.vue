@@ -18,7 +18,7 @@
                           label="Title:"
                           label-for="form-existing-title-input">
             <b-form-input id="something" v-model="selection"
-            style="width:100%" autocomplete="off" required
+            style="width:100%" autocomplete="off" required autofocus="true"
                    @keyup.down="down"
                    @keyup.up="up"
                    @keyup.enter="enter"

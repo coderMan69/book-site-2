@@ -2,7 +2,7 @@
 <div class="column is-4 is-offset-4">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
     <h3 class="title">Login</h3>
-    <div class="box">
+    <div class="box" style="width: 100%">
         <b-form>
             <div class="field">
                 <div class="control">
