@@ -2,7 +2,7 @@
   <div id="app">
     <nav id="nav" class="navbar navbar-dark bg-dark">
       <div class="container">
-        <router-link to="/">Profile</router-link> |
+        <router-link to="/login">Login</router-link> |
         <router-link to="/about">About</router-link>
       </div>
     </nav>

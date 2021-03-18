@@ -47,13 +47,9 @@ export default {
   },
   methods: {
     Login() {
-      const path = 'http://localhost:5000/login_auth';
+      const path = 'http://localhost:5000/authenticate';
       axios.get(path, { params: { email: this.email, password: this.password } })
-        .then((response) => {
-          console.log(response);
-        }, (error) => {
-          console.log(error);
-        });
+        .then((response) => this.$router.push({ name: 'user', params: { id: response.data.user_id } }));
     },
   },
 };
