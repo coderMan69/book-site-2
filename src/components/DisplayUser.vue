@@ -23,7 +23,7 @@
                   <h4 v-else class="ml-3">{{ books.length }} book</h4>
                 </a>
                 <!-- Add books does not work -->
-                <AddBook :userID="userID" class="ml-3" @book-added="refreshBooks"></AddBook>
+                <AddBook :userID="userID" class="ml-3" @book-added="refreshBooks"/>
               </div>
               <p class="text-secondary mb-1">{{ location }}</p>
             </div>
@@ -55,22 +55,19 @@
           <DisplayBooks @book-edited="refreshBooks"
                       :books="readingBooks"
                       :userID="userID"
-                      fixButtons="reading">
-          </DisplayBooks>
+                      fixButtons="reading"/>
         </div>
         <div :class="['tab-pane', { 'active': $route.hash === '#finished' }]">
           <DisplayBooks @book-edited="refreshBooks"
                       :books="readBooks"
                       :userID="userID"
-                      fixButtons="finished">
-          </DisplayBooks>
+                      fixButtons="finished"/>
         </div>
         <div :class="['tab-pane', { 'active': $route.hash === '#all' }]">
           <DisplayBooks @book-edited="refreshBooks"
                       :books="books"
                       :userID="userID"
-                      fixButtons="all">
-          </DisplayBooks>
+                      fixButtons="all"/>
         </div>
       </div>
     </div>
@@ -100,7 +97,7 @@ export default {
       user: {},
 
       // Can set userID to 1 or 2 at the moment
-      userID: 1,
+      // userID: 2,
     };
   },
   name: 'DisplayUser',
@@ -108,6 +105,12 @@ export default {
     AddBook,
     DisplayBooks,
     EditProfile,
+  },
+  props: {
+    userID: {
+      type: Number,
+      required: true,
+    },
   },
   created() {
     this.getBooks(this.userID);
