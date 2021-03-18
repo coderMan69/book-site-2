@@ -301,8 +301,8 @@ def all_posts():
         response_object['posts'] = POSTS
     return jsonify(response_object)
 
-@app.route('/login_auth', methods=['GET'])
-def login_post():
+@app.route('/authenticate', methods=['GET'])
+def authenticate_user():
 
     conn = mysql.connector.connect(
         host=HOST,
@@ -312,14 +312,15 @@ def login_post():
     )
     email = request.args.get('email')
     cursor = conn.cursor()
+    # TODO: add password and prevent SQL injections
     cursor.execute(f"SELECT id FROM readers where email='{email}'")
 
-    user_id = cursor.fetchone()
+    user_id = cursor.fetchone()[0]
     if not user_id:
-        return {'status': 'failed: invalid login'}
+        return {'status': '401'}
 
     # if the above check passes, then we know the user has the right credentials
-    return {'status': f'success: redirecting to {user_id}'}
+    return {'user_id': user_id, 'status': 200}
 
 if __name__ == '__main__':
     app.run()
