@@ -114,7 +114,7 @@ import axios from 'axios';
 export default {
   props: {
     userID: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
