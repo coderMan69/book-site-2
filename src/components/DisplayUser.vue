@@ -9,8 +9,32 @@
                 <img :src="profilePhoto" alt="Admin" class="rounded mb-3" width="175">
               </a>
             </div>
+            <b-container class="justify-content-between">
+              <b-row >
+                <b-col cols="8"><h4 class="mr-3">{{ name }}</h4></b-col>
+
+                <b-col cols="2"><EditProfile :userId="userID" @profile-edited="refreshUser"/>
+                </b-col>
+
+              </b-row>
+              <b-row>
+                <b-col>
+                <a href="#reading" style="color: #404040; text-decoration: none;">
+                  <h4 class="mr-3">{{ readingBooks.length }} reading</h4>
+                </a></b-col>
+                <b-col>
+                <a href="#all" style="color: #404040; text-decoration: none;">
+                  <h4 v-if="books.length !== 1" class="mx-3">{{ books.length }} books</h4>
+                  <h4 v-else class="ml-3">{{ books.length }} book</h4>
+                </a></b-col>
+                <b-col>
+                <AddBook :userID="userID" class="ml-3" @book-added="refreshBooks"/>
+                </b-col>
+              </b-row>
+            </b-container>
+
             <div class="mt-3">
-              <div class="row">
+              <div class="row justify-content-center">
                 <h4 class="mr-3">{{ name }}</h4>
                 <EditProfile :userId="userID" @profile-edited="refreshUser"/>
               </div>
@@ -22,55 +46,20 @@
                   <h4 v-if="books.length !== 1" class="mx-3">{{ books.length }} books</h4>
                   <h4 v-else class="ml-3">{{ books.length }} book</h4>
                 </a>
-                <!-- Add books does not work -->
                 <AddBook :userID="userID" class="ml-3" @book-added="refreshBooks"/>
               </div>
               <p class="text-secondary mb-1">{{ location }}</p>
             </div>
+
           </div>
         </div>
       </div>
     </div>
-
-    <div class="tabs">
-      <b-nav tabs align="center">
-        <b-nav-item id="reading"
-                    to="#reading"
-                    :active="$route.hash === '#reading' || $route.hash === ''">
-                    Currently Reading
-        </b-nav-item>
-        <b-nav-item id="finished"
-                    to="#finished"
-                    :active="$route.hash === '#finished'">
-                    Finished
-        </b-nav-item>
-        <b-nav-item id="all"
-                    to="#all"
-                    :active="$route.hash === '#all'">
-                    All Books
-        </b-nav-item>
-      </b-nav>
-      <div class="tab-content">
-        <div :class="['tab-pane', { 'active': $route.hash === '#reading' || $route.hash == '' }]">
-          <DisplayBooks @book-edited="refreshBooks"
-                      :books="readingBooks"
-                      :userID="userID"
-                      fixButtons="reading"/>
-        </div>
-        <div :class="['tab-pane', { 'active': $route.hash === '#finished' }]">
-          <DisplayBooks @book-edited="refreshBooks"
-                      :books="readBooks"
-                      :userID="userID"
-                      fixButtons="finished"/>
-        </div>
-        <div :class="['tab-pane', { 'active': $route.hash === '#all' }]">
-          <DisplayBooks @book-edited="refreshBooks"
-                      :books="books"
-                      :userID="userID"
-                      fixButtons="all"/>
-        </div>
-      </div>
-    </div>
+    <DisplayBooks
+      @book-edited="refreshBooks()"
+      :books="books"
+      :userID="userID"
+      fixButtons="sam"/>
     <br/>
     <a>links</a>
     <br/>
@@ -108,7 +97,7 @@ export default {
   },
   props: {
     userID: {
-      type: Number,
+      type: String,
       required: true,
     },
   },

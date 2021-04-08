@@ -1,7 +1,11 @@
 <template>
     <div>
-        <button v-b-modal="modalId" @click="initBook">Edit Book</button>
-        <button @click="removeBook">Remove Book</button>
+        <b-button
+          v-b-modal="modalId"
+          @click="initBook"
+          variant="outline-primary"
+          class="mr-1">Edit Book</b-button>
+        <b-button @click="removeBook" variant="outline-primary">Remove Book</b-button>
         <b-modal ref="editBookModal"
                  :id="modalId"
                  :title="modalTitle"
@@ -54,10 +58,6 @@ export default {
       required: true,
     },
     userId: {
-      type: Number,
-      required: true,
-    },
-    fixButton: {
       type: String,
       required: true,
     },
@@ -73,10 +73,10 @@ export default {
       return `Edit ${this.book.title}`;
     },
     modalRef() {
-      return `edit${this.book.title}${this.fixButtonModal}`;
+      return `edit${this.book.title}`;
     },
     modalId() {
-      return `edit-${this.book.title}-${this.fixButton}-Modal`;
+      return `edit=${this.book.title}-Modal`;
     },
     authorsString() {
       let returnAuthors = this.book.author[0];

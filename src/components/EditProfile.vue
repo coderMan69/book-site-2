@@ -59,7 +59,7 @@ export default {
   },
   props: {
     userId: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
