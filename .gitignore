@@ -6,6 +6,8 @@ node_modules
 # local env files
 .env.local
 .env.*.local
+server/utils.py
+server/get-gutenberg-books.py
 
 # Log files
 npm-debug.log*
