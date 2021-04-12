@@ -86,7 +86,6 @@ export default {
       user: {},
 
       // Can set userID to 1 or 2 at the moment
-      // userID: 2,
     };
   },
   name: 'DisplayUser',

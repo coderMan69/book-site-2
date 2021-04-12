@@ -1,29 +1,38 @@
 <template>
-<div>
-  <div class="tabs">
-    <b-nav tabs align="center">
-      <b-nav-item id="reading"
-                  to="#reading"
-                  :active="$route.hash === '#reading' || $route.hash === ''"
-                  @click="changeMode(1)">
-                  Currently Reading
-      </b-nav-item>
-      <b-nav-item id="finished"
-                  to="#finished"
-                  :active="$route.hash === '#finished'"
-                  @click="changeMode(2)">
-                  Finished
-      </b-nav-item>
-      <b-nav-item id="all"
-                  to="#all"
-                  :active="$route.hash === '#all'"
-                  v-on:click="changeMode(0)">
-                  All Books
-      </b-nav-item>
-    </b-nav>
-  </div>
+  <div>
 
-  <b-card-group deck>
+    <!-- <div class="container"> -->
+    <div class="row">
+      <div class="col"/>
+      <div class="tabs col-6 text-center">
+        <b-nav tabs align="center">
+          <b-nav-item id="reading"
+                      to="#reading"
+                      :active="$route.hash === '#reading' || $route.hash === ''"
+                      @click="changedisplayBooksMode(1)">
+                      Currently Reading
+          </b-nav-item>
+          <b-nav-item id="finished"
+                      to="#finished"
+                      :active="$route.hash === '#finished'"
+                      @click="changedisplayBooksMode(2)">
+                      Finished
+          </b-nav-item>
+          <b-nav-item id="all"
+                      to="#all"
+                      :active="$route.hash === '#all'"
+                      v-on:click="changedisplayBooksMode(0)">
+                      All Books
+          </b-nav-item>
+        </b-nav>
+      </div>
+      <div class="col text-right mr-3">
+        <b-button @click="toggleDisplay">Table</b-button>
+      </div>
+    </div>
+    <!--</div>-->
+
+ <!-- <b-card-group deck>
     <b-card
       v-for="(book, index) in books"
       :key="index"
@@ -38,27 +47,78 @@
         :userId="userID"/>
     </b-card>
   </b-card-group>
-
-<div style="width: 80%; margin: 0 auto;">
+-->
+<!--
+  <b-list-group horizontal>
+    <b-list-group-item
+      v-for="(book, index) in books"
+      :key="index"
+      class="mt-3"
+      style="width: 25%"
+      v-show="showBook(book)">
+      <div class="border p-1 m-2">
+        <img
+          :src="book.cover"
+          :title="`${book.title}\n${authorToString(book)}`"
+          :alt="book.title"
+          class="box">
+        <EditBook
+            @book-edited="emit"
+            :book="book"
+            :userId="userID"
+            class="mt-2"/>
+      </div>
+    </b-list-group-item>
+  </b-list-group>
+-->
+<!--
+  <ul style="display: inline-flex; margin: 0 auto;">
+    <li
+      v-for="(book, index) in books"
+      :key="index"
+      class="mt-3"
+      style="display: inline; width: 50%"
+      v-show="showBook(book)">
+      <div class="border p-1 m-2">
+        <img
+          :src="book.cover"
+          :title="`${book.title}\n${authorToString(book)}`"
+          class="box">
+        <EditBook
+            @book-edited="emit"
+            :book="book"
+            :userId="userID"
+            class="mt-2"/>
+      </div>
+    </li>
+  </ul>
+-->
   <div
-    v-for="(book, index) in books"
-    :key="index"
-    class="mt-3"
-    v-show="showBook(book)">
-    <div class="border p-1 m-2" style="float: left; width: 18%;">
-      <img
-        :src="book.cover"
-        :title="`${book.title}\n${authorToString(book)}`"
-        class="box">
-      <EditBook
-          @book-edited="emit"
-          :book="book"
-          :userId="userID"
-          class="mt-2"/>
+    style="width: 80%; margin: 0 auto;"
+    v-show="!showTable()">
+    <div
+      v-for="(book, index) in books"
+      :key="index"
+      class="mt-3 hov"
+      v-show="showBook(book)">
+      <div class="border p-1 m-2" style="float: left; width: 18%;">
+        <img
+          :src="book.cover"
+          :title="`${book.title}\n${authorToString(book)}`"
+          class="box">
+        <EditBook
+            @book-edited="emit"
+            :book="book"
+            :userId="userID"
+            class="mt-2"/>
+      </div>
     </div>
   </div>
-</div>
-  <div class="container-fluid">
+  <div/>
+
+  <div
+    class="container-fluid"
+    v-show="showTable()">
     <table id="BookTable" class="table table-hover">
       <thead>
         <tr>
@@ -69,7 +129,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(book, index) in books" :key="index">
+        <tr
+          v-for="(book, index) in books"
+          :key="index"
+          v-show="showBook(book)">
           <td>{{book.title}}</td>
           <td><span v-for="(author, index) in book.author" :key="index">
             {{ author }}<br/>
@@ -96,7 +159,7 @@
       </tbody>
     </table>
   </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -124,7 +187,8 @@ export default {
     return {
       /* eslint-disable global-require */
       noCover: require('../assets/photos/no_cover.jpg'),
-      mode: 0,
+      displayBooksMode: 0,
+      displayFormat: 'Table',
     };
   },
   name: 'displayBooks',
@@ -134,19 +198,31 @@ export default {
       this.$emit('book-edited');
     },
     showBook(book) {
-      if (this.mode === 1) {
+      if (this.displayBooksMode === 1) {
         return book.reading;
       }
-      if (this.mode === 2) {
+      if (this.displayBooksMode === 2) {
         return book.read;
       }
       return true;
     },
-    changeMode(mode) {
-      this.mode = mode;
+    // display format holds what format button will be used if the button is clicked
+    // So we want to display in the opposite format of what display format holds
+    showTable() {
+      return this.displayFormat !== 'Table';
+    },
+    changedisplayBooksMode(displayBooksMode) {
+      this.displayBooksMode = displayBooksMode;
     },
     authorToString(book) {
       return book.author.join(', ');
+    },
+    toggleDisplay() {
+      if (this.displayFormat === 'Table') {
+        this.displayFormat = 'Covers';
+      } else {
+        this.displayFormat = 'Table';
+      }
     },
   },
 };
@@ -154,7 +230,11 @@ export default {
 
 <style>
   .box {
-    width: 90%;
-    height: 90%;
+    width: 15em;
+    height: 22em;
+  }
+
+  .hov:hover {
+    transform: scale(1.1);
   }
 </style>
