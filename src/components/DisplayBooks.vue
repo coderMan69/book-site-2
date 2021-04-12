@@ -8,7 +8,7 @@
           <b-nav-item
             id="reading"
             to="#reading"
-            :active="$route.hash === '#reading' || $route.hash === ''"
+            :active="$route.hash === '#reading'"
             @click="changedisplayBooksMode(1)"
           >
             Currently Reading
@@ -24,7 +24,7 @@
           <b-nav-item
             id="all"
             to="#all"
-            :active="$route.hash === '#all'"
+            :active="$route.hash === '#all' || $route.hash === ''"
             v-on:click="changedisplayBooksMode(0)"
           >
             All Books
@@ -32,7 +32,7 @@
         </b-nav>
       </div>
       <div class="col text-right mr-3">
-        <b-button @click="toggleDisplay">Table</b-button>
+        <b-button @click="toggleDisplay">{{ displayFormat }}</b-button>
       </div>
     </div>
     <!--</div>-->
@@ -98,15 +98,14 @@
     </li>
   </ul>
 -->
-
-    <div style="width: 80%; margin: 0 auto" v-show="!showTable()">
+      <div style="display: flex; flex-wrap: wrap; justify-content:center;" v-show="!showTable()">
       <div
         v-for="(book, index) in books"
         :key="index"
         class="mt-3 hov"
         v-show="showBook(book)"
       >
-        <div class="border p-1 m-2" style="float: left; width: 18%">
+        <div class="border p-1 m-2">
           <img
             :src="book.cover"
             :title="`${book.title}\n${authorToString(book)}`"
@@ -246,6 +245,13 @@ export default {
 }
 
 .hov:hover {
-  transform: scale(1.1);
+  animation-name: rotate;
+  animation-duration: 400ms;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(-360deg);
+  }
 }
 </style>
