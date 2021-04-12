@@ -1,28 +1,33 @@
 <template>
   <div>
-
     <!-- <div class="container"> -->
     <div class="row">
-      <div class="col"/>
+      <div class="col" />
       <div class="tabs col-6 text-center">
         <b-nav tabs align="center">
-          <b-nav-item id="reading"
-                      to="#reading"
-                      :active="$route.hash === '#reading' || $route.hash === ''"
-                      @click="changedisplayBooksMode(1)">
-                      Currently Reading
+          <b-nav-item
+            id="reading"
+            to="#reading"
+            :active="$route.hash === '#reading' || $route.hash === ''"
+            @click="changedisplayBooksMode(1)"
+          >
+            Currently Reading
           </b-nav-item>
-          <b-nav-item id="finished"
-                      to="#finished"
-                      :active="$route.hash === '#finished'"
-                      @click="changedisplayBooksMode(2)">
-                      Finished
+          <b-nav-item
+            id="finished"
+            to="#finished"
+            :active="$route.hash === '#finished'"
+            @click="changedisplayBooksMode(2)"
+          >
+            Finished
           </b-nav-item>
-          <b-nav-item id="all"
-                      to="#all"
-                      :active="$route.hash === '#all'"
-                      v-on:click="changedisplayBooksMode(0)">
-                      All Books
+          <b-nav-item
+            id="all"
+            to="#all"
+            :active="$route.hash === '#all'"
+            v-on:click="changedisplayBooksMode(0)"
+          >
+            All Books
           </b-nav-item>
         </b-nav>
       </div>
@@ -32,7 +37,7 @@
     </div>
     <!--</div>-->
 
- <!-- <b-card-group deck>
+    <!-- <b-card-group deck>
     <b-card
       v-for="(book, index) in books"
       :key="index"
@@ -48,7 +53,7 @@
     </b-card>
   </b-card-group>
 -->
-<!--
+    <!--
   <b-list-group horizontal>
     <b-list-group-item
       v-for="(book, index) in books"
@@ -71,7 +76,7 @@
     </b-list-group-item>
   </b-list-group>
 -->
-<!--
+    <!--
   <ul style="display: inline-flex; margin: 0 auto;">
     <li
       v-for="(book, index) in books"
@@ -93,73 +98,79 @@
     </li>
   </ul>
 -->
-  <div
-    style="width: 80%; margin: 0 auto;"
-    v-show="!showTable()">
-    <div
-      v-for="(book, index) in books"
-      :key="index"
-      class="mt-3 hov"
-      v-show="showBook(book)">
-      <div class="border p-1 m-2" style="float: left; width: 18%;">
-        <img
-          :src="book.cover"
-          :title="`${book.title}\n${authorToString(book)}`"
-          class="box">
-        <EditBook
+
+    <div style="width: 80%; margin: 0 auto" v-show="!showTable()">
+      <div
+        v-for="(book, index) in books"
+        :key="index"
+        class="mt-3 hov"
+        v-show="showBook(book)"
+      >
+        <div class="border p-1 m-2" style="float: left; width: 18%">
+          <img
+            :src="book.cover"
+            :title="`${book.title}\n${authorToString(book)}`"
+            class="box"
+          />
+          <EditBook
             @book-edited="emit"
             :book="book"
             :userId="userID"
-            class="mt-2"/>
+            class="mt-2"
+          />
+        </div>
       </div>
     </div>
-  </div>
-  <div/>
 
-  <div
-    class="container-fluid"
-    v-show="showTable()">
-    <table id="BookTable" class="table table-hover">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Cover</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(book, index) in books"
-          :key="index"
-          v-show="showBook(book)">
-          <td>{{book.title}}</td>
-          <td><span v-for="(author, index) in book.author" :key="index">
-            {{ author }}<br/>
-          </span></td>
-          <td>
-            <div class="box">
-              <a href="http://localhost:8080">
-                <img v-if="book.cover"
+    <div class="container-fluid" v-show="showTable()">
+      <table id="BookTable" class="table table-hover">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Cover</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(book, index) in books"
+            :key="index"
+            v-show="showBook(book)"
+          >
+            <td>{{ book.title }}</td>
+            <td>
+              <span v-for="(author, index) in book.author" :key="index">
+                {{ author }}<br />
+              </span>
+            </td>
+            <td>
+              <div class="box">
+                <a href="http://localhost:8080">
+                  <img
+                    v-if="book.cover"
                     :src="book.cover"
                     :title="`${book.title}\n${book.author}`"
-                    class="container-fluid">
-                <img v-else
+                    class="container-fluid"
+                  />
+                  <img
+                    v-else
                     :src="noCover"
-                    :title="`${book.title}\n${book.author}`">
-              </a>
-            </div>
-          </td>
-          <td>
-            <EditBook @book-edited="emit"
-                      :book="book"
-                      :userId="userID">Edit</EditBook>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+                    :title="`${book.title}\n${book.author}`"
+                  />
+                </a>
+              </div>
+            </td>
+            <td>
+              <EditBook @book-edited="emit" :book="book" :userId="userID"
+                >Edit</EditBook
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -229,12 +240,12 @@ export default {
 </script>
 
 <style>
-  .box {
-    width: 15em;
-    height: 22em;
-  }
+.box {
+  width: 15em;
+  height: 22em;
+}
 
-  .hov:hover {
-    transform: scale(1.1);
-  }
+.hov:hover {
+  transform: scale(1.1);
+}
 </style>
