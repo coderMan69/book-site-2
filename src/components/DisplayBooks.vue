@@ -98,7 +98,10 @@
     </li>
   </ul>
 -->
-      <div style="display: flex; flex-wrap: wrap; justify-content:center;" v-show="!showTable()">
+    <div
+      style="display: flex; flex-wrap: wrap; justify-content: center"
+      v-show="!showTable()"
+    >
       <div
         v-for="(book, index) in books"
         :key="index"
@@ -111,10 +114,12 @@
             :title="`${book.title}\n${authorToString(book)}`"
             class="box"
           />
+          <!-- Need v-if to prevent double push of buttons -->
           <EditBook
             @book-edited="emit"
             :book="book"
             :userId="userID"
+            v-if="!showTable()"
             class="mt-2"
           />
         </div>
@@ -161,9 +166,13 @@
               </div>
             </td>
             <td>
-              <EditBook @book-edited="emit" :book="book" :userId="userID"
-                >Edit</EditBook
-              >
+              <!-- Need v-if to prevent double push of buttons -->
+              <EditBook
+                @book-edited="emit"
+                :book="book"
+                :userId="userID"
+                v-if="showTable()"
+              />
             </td>
           </tr>
         </tbody>
