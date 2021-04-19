@@ -1,19 +1,39 @@
 from flask import Flask, jsonify, request, redirect, url_for
+from flask_login import UserMixin, LoginManager, login_user
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
 import uuid
 from datetime import datetime
 import mysql.connector
 import json
+import bcrypt
 
 # configuration
 DEBUG = True
 
+# init SQLAlchemy so we can use it later in our models
+db = SQLAlchemy()
+
 # instantiate the app
 app = Flask(__name__)
 app.config.from_object(__name__)
+app.config['SECRET_KEY'] = 'secret-key-goes-here'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+
+db.init_app(app)
+
+login_manager = LoginManager()
+# login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
 
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
+
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+    name = db.Column(db.String(1000))
 
 class Book:
 
@@ -301,6 +321,11 @@ def all_posts():
         response_object['posts'] = POSTS
     return jsonify(response_object)
 
+@login_manager.user_loader
+def load_user(user_id):
+    # since the user_id is just the primary key of our user table, use it in the query for the user
+    return User.query.get(int(user_id))
+
 @app.route('/authenticate', methods=['GET'])
 def authenticate_user():
 
@@ -318,9 +343,32 @@ def authenticate_user():
     user_id = cursor.fetchone()[0]
     if not user_id:
         return {'status': '401'}
-
+    user = load_user(user_id)
+    login_user(user, remember=True)
     # if the above check passes, then we know the user has the right credentials
     return {'user_id': user_id, 'status': 200}
+
+@app.route('/signup', methods=['GET'])
+def signup_post():
+    email = request.args.get('email')
+    name = request.args.get('name')
+    password = request.args.get('password').encode('utf-8')
+    print(email, name, password)
+
+    user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
+
+    if user: # if a user is found, we want to redirect back to signup page so user can try again
+        return
+
+    # create a new user with the form data. Hash the password so the plaintext version isn't saved.
+    new_user = User(email=email, name=name, password=bcrypt.hashpw(password, bcrypt.gensalt()))
+
+    # add the new user to the database
+    db.session.add(new_user)
+    db.session.commit()
+
+    return
+
 
 if __name__ == '__main__':
     app.run()
