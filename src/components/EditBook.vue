@@ -1,7 +1,11 @@
 <template>
     <div>
-        <button v-b-modal="modalId" @click="initBook">Edit Book</button>
-        <button @click="removeBook">Remove Book</button>
+        <b-button
+          v-b-modal="modalId"
+          @click="initBook"
+          variant="outline-dark"
+          class="mr-1">Edit Book</b-button>
+        <b-button @click="removeBook" variant="outline-danger">Remove Book</b-button>
         <b-modal ref="editBookModal"
                  :id="modalId"
                  :title="modalTitle"
@@ -27,14 +31,14 @@
                                   readonly>
                     </b-form-input>
                 </b-form-group>
-                <b-form-group id="form-read-group">
-                    <b-form-checkbox-group v-model="read" id="form-checks">
-                        <b-form-checkbox value="true">Read?</b-form-checkbox>
-                    </b-form-checkbox-group>
-                </b-form-group>
                 <b-form-group id="form-reading-group">
                     <b-form-checkbox-group v-model="reading" id="form-checks">
-                        <b-form-checkbox value="true">Currently Reading?</b-form-checkbox>
+                        <b-form-checkbox value="true">Reading</b-form-checkbox>
+                    </b-form-checkbox-group>
+                </b-form-group>
+                <b-form-group id="form-read-group">
+                    <b-form-checkbox-group v-model="read" id="form-checks">
+                        <b-form-checkbox value="true">Finished</b-form-checkbox>
                     </b-form-checkbox-group>
                 </b-form-group>
                 <b-button type="submit" variant="primary">Submit</b-button>
@@ -54,10 +58,6 @@ export default {
       required: true,
     },
     userId: {
-      type: Number,
-      required: true,
-    },
-    fixButton: {
       type: String,
       required: true,
     },
@@ -73,10 +73,10 @@ export default {
       return `Edit ${this.book.title}`;
     },
     modalRef() {
-      return `edit${this.book.title}${this.fixButtonModal}`;
+      return `edit${this.book.title}`;
     },
     modalId() {
-      return `edit-${this.book.title}-${this.fixButton}-Modal`;
+      return `edit=${this.book.title}-Modal`;
     },
     authorsString() {
       let returnAuthors = this.book.author[0];

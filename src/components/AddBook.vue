@@ -1,111 +1,145 @@
 <template>
+  <div>
     <div>
-        <div>
-            <b-alert show v-show="showMessage">{{ message }}</b-alert>
-        </div>
+      <b-alert show v-show="showMessage">{{ message }}</b-alert>
+    </div>
 
-        <button v-b-modal.add-book-modal @click="removeMessage">Add a Book</button>
-        <b-modal ref="addBookModal"
-                 id="add-book-modal"
-                 title="Add a new book"
-                 hide-footer>
-          <!-- ADD functionality for adding an existing and new book
+    <b-button v-b-modal.add-book-modal variant="outline-success" class="py-0" @click="removeMessage"
+      >Add a Book</b-button
+    >
+    <b-modal
+      ref="addBookModal"
+      id="add-book-modal"
+      title="Add a new book"
+      hide-footer
+    >
+      <!-- ADD functionality for adding an existing and new book
                ADD functionality for cancelling either model -->
-          <!-- <b-form @submit.stop.prevent
+      <!-- <b-form @submit.stop.prevent
           @submit="onSubmitExisting" @reset="onReset" @create="newBook"> -->
-          <div style="position:relative">
-            <b-form-group id="form-existing-title"
-                          label="Title:"
-                          label-for="form-existing-title-input">
-            <b-form-input id="something" v-model="selection"
-            style="width:100%" autocomplete="off" required autofocus="true"
-                   @keyup.down="down"
-                   @keyup.up="up"
-                   @keyup.enter="enter"
-                   @input="change">
-            </b-form-input>
-            <ul class="dropdown-menu"
-                :style="{ display: showAutoComplete }"
-                style="width:100%">
-              <li v-for="(item, index) in bookSearch"
-                  :key="index"
-                  :class="{ active: isActive(index)}"
-                  class="dropdown-item">
-                {{ item.title }}
-              </li>
-            </ul>
-            </b-form-group>
-          </div>
-          <b-form-group id="form-read-group" v-show="readyForExistingAdd && !showDropdown">
-              <b-form-checkbox-group v-model="book.read" id="form-checks">
-                <b-form-checkbox value="true">Read?</b-form-checkbox>
-              </b-form-checkbox-group>
-            </b-form-group>
-            <b-form-group id="form-reading-group" v-show="readyForExistingAdd && !showDropdown">
-              <b-form-checkbox-group v-model="book.reading" id="form-checks">
-                <b-form-checkbox value="true">Currently Reading?</b-form-checkbox>
-              </b-form-checkbox-group>
-            </b-form-group>
-          <div class="row justify-content-end">
-          <!-- <b-button v-b-modal.book-modal
+      <div style="position: relative">
+        <b-form-group
+          id="form-existing-title"
+          label="Title:"
+          label-for="form-existing-title-input"
+        >
+          <b-form-input
+            id="something"
+            v-model="selection"
+            style="width: 100%"
+            autocomplete="off"
+            required
+            autofocus="true"
+            @keyup.down="down"
+            @keyup.up="up"
+            @keyup.enter="enter"
+            @input="change"
+          >
+          </b-form-input>
+          <ul
+            class="dropdown-menu"
+            :style="{ display: showAutoComplete }"
+            style="width: 100%"
+          >
+            <li
+              v-for="(item, index) in bookSearch"
+              :key="index"
+              :class="{ active: isActive(index) }"
+              class="dropdown-item"
+            >
+              {{ item.title }}
+            </li>
+          </ul>
+        </b-form-group>
+      </div>
+      <b-form-group
+        id="form-reading-group"
+        v-show="readyForExistingAdd && !showDropdown"
+      >
+        <b-form-checkbox-group v-model="book.reading" id="form-checks">
+          <b-form-checkbox value="true">Reading</b-form-checkbox>
+        </b-form-checkbox-group>
+      </b-form-group>
+      <b-form-group
+        id="form-read-group"
+        v-show="readyForExistingAdd && !showDropdown"
+      >
+        <b-form-checkbox-group v-model="book.read" id="form-checks">
+          <b-form-checkbox value="true">Finished</b-form-checkbox>
+        </b-form-checkbox-group>
+      </b-form-group>
+      <div class="row justify-content-end">
+        <!-- <b-button v-b-modal.book-modal
                     v-show="addBookButton"
                     @click="newBook"> -->
-            <b-button v-b-modal.book-modal
-                    v-show="addBookButton"
-                    @click="newBook">
-            Create Book
-          </b-button>
-          <b-button variant="primary"
-                    v-show="!addBookButton"
-                    @click="onSubmitExisting">
-            Add Book
-          </b-button>
-          <b-button class="mr-3" variant="danger" @click="onReset">Cancel</b-button>
-          </div>
-          <!-- </b-form> -->
-        </b-modal>
-        <b-modal ref="newBookModal"
-                 id="book-modal"
-                 title="Add a new book"
-                 hide-footer>
-            <b-form @submit="onSubmit">
-            <b-form-group id="form-title-group"
-                          label="Title:"
-                          label-for="form-title-input">
-                <b-form-input id="form-title-input"
-                              type="text"
-                              v-model="book.title"
-                              required
-                              placeholder="Enter title">
-                </b-form-input>
-            </b-form-group>
-            <b-form-group id="form-author-group"
-                          label="Author:"
-                          label-for="form-author-input">
-                <b-form-input id="form-author-input"
-                              type="text"
-                              v-model="book.author"
-                              required
-                              placeholder="Enter author">
-                </b-form-input>
-                <small class="form-text text-muted">
-                  If multiple authors, seperate each with a comma
-                </small>
-            </b-form-group>
-            <b-form-group id="form-read-group">
-              <b-form-checkbox-group v-model="book.read" id="form-checks">
-                <b-form-checkbox value="true">Read?</b-form-checkbox>
-              </b-form-checkbox-group>
-            </b-form-group>
-            <b-form-group id="form-reading-group">
-              <b-form-checkbox-group v-model="book.reading" id="form-checks">
-                <b-form-checkbox value="true">Currently Reading?</b-form-checkbox>
-              </b-form-checkbox-group>
-            </b-form-group>
-            <b-button type="submit" variant="primary">Submit</b-button>
-            </b-form>
-        </b-modal>
-    </div>
+        <b-button v-b-modal.book-modal v-show="addBookButton" @click="newBook">
+          Create Book
+        </b-button>
+        <b-button
+          variant="primary"
+          v-show="!addBookButton"
+          @click="onSubmitExisting"
+        >
+          Add Book
+        </b-button>
+        <b-button class="mr-3" variant="danger" @click="onReset"
+          >Cancel</b-button
+        >
+      </div>
+      <!-- </b-form> -->
+    </b-modal>
+    <b-modal
+      ref="newBookModal"
+      id="book-modal"
+      title="Add a new book"
+      hide-footer
+    >
+      <b-form @submit="onSubmit">
+        <b-form-group
+          id="form-title-group"
+          label="Title:"
+          label-for="form-title-input"
+        >
+          <b-form-input
+            id="form-title-input"
+            type="text"
+            v-model="book.title"
+            required
+            placeholder="Enter title"
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-form-group
+          id="form-author-group"
+          label="Author:"
+          label-for="form-author-input"
+        >
+          <b-form-input
+            id="form-author-input"
+            type="text"
+            v-model="book.author"
+            required
+            placeholder="Enter author"
+          >
+          </b-form-input>
+          <small class="form-text text-muted">
+            If multiple authors, seperate each with a comma
+          </small>
+        </b-form-group>
+        <b-form-group id="form-read-group">
+          <b-form-checkbox-group v-model="book.read" id="form-checks">
+            <b-form-checkbox value="true">Read?</b-form-checkbox>
+          </b-form-checkbox-group>
+        </b-form-group>
+        <b-form-group id="form-reading-group">
+          <b-form-checkbox-group v-model="book.reading" id="form-checks">
+            <b-form-checkbox value="true">Currently Reading?</b-form-checkbox>
+          </b-form-checkbox-group>
+        </b-form-group>
+        <b-button type="submit" variant="primary">Submit</b-button>
+      </b-form>
+    </b-modal>
+  </div>
 </template>
 
 <script>
@@ -114,7 +148,7 @@ import axios from 'axios';
 export default {
   props: {
     userID: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
@@ -142,13 +176,18 @@ export default {
   },
   computed: {
     showAutoComplete() {
-      return this.selection.length > 0 && this.bookSearch.length > 0 && this.showDropdown ? 'block' : 'none';
+      return this.selection.length > 0
+        && this.bookSearch.length > 0
+        && this.showDropdown
+        ? 'block'
+        : 'none';
     },
     // Is what has been typed equal to the beginning of any of the book titles
     bookSearch() {
-      return this.books.filter((item) => (
-        item.title.substr(0, this.selection.length).toUpperCase()
-        === this.selection.toUpperCase()));
+      return this.books.filter(
+        (item) => item.title.substr(0, this.selection.length).toUpperCase()
+          === this.selection.toUpperCase(),
+      );
     },
     addBookButton() {
       return this.selection.length > 0 && this.bookSearch.length === 0;
@@ -183,13 +222,12 @@ export default {
     },
     allBooks() {
       const path = 'http://localhost:5000/books';
-      axios.get(path)
-        .then((res) => {
-          this.books = res.data.books;
-        });
+      axios.get(path).then((res) => {
+        this.books = res.data.books;
+      });
     },
     isActive(index) {
-      return (this.current === index);
+      return this.current === index;
     },
     onSubmitExisting(evt) {
       evt.preventDefault();
@@ -211,7 +249,8 @@ export default {
     },
     addExisting(payload) {
       const path = 'http://localhost:5000/add_book';
-      axios.post(path, payload)
+      axios
+        .post(path, payload)
         .then((res) => {
           this.$emit('book-added');
           this.message = res.data.message;
@@ -239,14 +278,13 @@ export default {
     },
     addBook(payload) {
       const path = 'http://localhost:5000/books';
-      axios.post(path, payload)
-        .then((res) => {
-          this.message = res.data.message;
-          this.showMessage = true;
-          if (res.data.added) {
-            this.$emit('book-added');
-          }
-        });
+      axios.post(path, payload).then((res) => {
+        this.message = res.data.message;
+        this.showMessage = true;
+        if (res.data.added) {
+          this.$emit('book-added');
+        }
+      });
     },
     newBook(evt) {
       evt.preventDefault();
