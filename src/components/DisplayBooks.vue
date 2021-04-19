@@ -35,69 +35,6 @@
         <b-button @click="toggleDisplay">{{ displayFormat }}</b-button>
       </div>
     </div>
-    <!--</div>-->
-
-    <!-- <b-card-group deck>
-    <b-card
-      v-for="(book, index) in books"
-      :key="index"
-      :img-src="book.cover"
-      img-alt="Card Image"
-      class="mw-25 p-1 mt-1"
-      v-show="showBook(book)">
-
-      <EditBook
-        @book-edited="emit"
-        :book="book"
-        :userId="userID"/>
-    </b-card>
-  </b-card-group>
--->
-    <!--
-  <b-list-group horizontal>
-    <b-list-group-item
-      v-for="(book, index) in books"
-      :key="index"
-      class="mt-3"
-      style="width: 25%"
-      v-show="showBook(book)">
-      <div class="border p-1 m-2">
-        <img
-          :src="book.cover"
-          :title="`${book.title}\n${authorToString(book)}`"
-          :alt="book.title"
-          class="box">
-        <EditBook
-            @book-edited="emit"
-            :book="book"
-            :userId="userID"
-            class="mt-2"/>
-      </div>
-    </b-list-group-item>
-  </b-list-group>
--->
-    <!--
-  <ul style="display: inline-flex; margin: 0 auto;">
-    <li
-      v-for="(book, index) in books"
-      :key="index"
-      class="mt-3"
-      style="display: inline; width: 50%"
-      v-show="showBook(book)">
-      <div class="border p-1 m-2">
-        <img
-          :src="book.cover"
-          :title="`${book.title}\n${authorToString(book)}`"
-          class="box">
-        <EditBook
-            @book-edited="emit"
-            :book="book"
-            :userId="userID"
-            class="mt-2"/>
-      </div>
-    </li>
-  </ul>
--->
     <div
       style="display: flex; flex-wrap: wrap; justify-content: center"
       v-show="!showTable()"
@@ -108,11 +45,35 @@
         class="mt-3 hov"
         v-show="showBook(book)"
       >
+        <b-modal
+          :id="book.title"
+          centered
+          hide-backdrop
+          hide-footer
+          hide-header
+          content-class="shadow"
+          body-bg-variant="dark"
+          body-text-variant="light"
+          size="xl"
+        >
+        <b-img
+          right
+          class="pl-2"
+          :src="book.cover"
+          :alt="book.title"
+        />
+        <h2>Title:</h2>
+        <h2><strong>{{ book.title }}</strong></h2>
+        <h2>Author:</h2>
+        <h2 v-for="(author, index) in book.author" :key=index><strong>{{ author }}</strong></h2>
+        </b-modal>
         <div class="border p-1 m-2">
           <img
             :src="book.cover"
             :title="`${book.title}\n${authorToString(book)}`"
+            :alt="book.title"
             class="box"
+            v-b-modal="book.title"
           />
           <!-- Need v-if to prevent double push of buttons -->
           <EditBook
@@ -150,19 +111,25 @@
             </td>
             <td>
               <div class="box">
-                <a href="http://localhost:8080">
+                <a href="#">
                   <img
                     v-if="book.cover"
                     :src="book.cover"
                     :title="`${book.title}\n${book.author}`"
-                    class="container-fluid"
+                    :alt="book.title"
                   />
                   <img
                     v-else
                     :src="noCover"
+                    :alt="book.title"
                     :title="`${book.title}\n${book.author}`"
                   />
                 </a>
+                <!-- <b-popover :target="book.title" triggers="hover"
+                  placement="top">
+                  <template #title>{{book.title}}</template>
+                  {{book.author}}
+                </b-popover> -->
               </div>
             </td>
             <td>
@@ -178,6 +145,7 @@
         </tbody>
       </table>
     </div>
+    <div class="modal fade" id="modal1">Hello</div>
   </div>
 </template>
 
@@ -248,6 +216,7 @@ export default {
 </script>
 
 <style>
+
 .box {
   width: 15em;
   height: 22em;

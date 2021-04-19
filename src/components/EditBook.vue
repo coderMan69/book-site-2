@@ -3,9 +3,9 @@
         <b-button
           v-b-modal="modalId"
           @click="initBook"
-          variant="outline-primary"
+          variant="outline-dark"
           class="mr-1">Edit Book</b-button>
-        <b-button @click="removeBook" variant="outline-primary">Remove Book</b-button>
+        <b-button @click="removeBook" variant="outline-danger">Remove Book</b-button>
         <b-modal ref="editBookModal"
                  :id="modalId"
                  :title="modalTitle"
@@ -31,14 +31,14 @@
                                   readonly>
                     </b-form-input>
                 </b-form-group>
-                <b-form-group id="form-read-group">
-                    <b-form-checkbox-group v-model="read" id="form-checks">
-                        <b-form-checkbox value="true">Read?</b-form-checkbox>
-                    </b-form-checkbox-group>
-                </b-form-group>
                 <b-form-group id="form-reading-group">
                     <b-form-checkbox-group v-model="reading" id="form-checks">
-                        <b-form-checkbox value="true">Currently Reading?</b-form-checkbox>
+                        <b-form-checkbox value="true">Reading</b-form-checkbox>
+                    </b-form-checkbox-group>
+                </b-form-group>
+                <b-form-group id="form-read-group">
+                    <b-form-checkbox-group v-model="read" id="form-checks">
+                        <b-form-checkbox value="true">Finished</b-form-checkbox>
                     </b-form-checkbox-group>
                 </b-form-group>
                 <b-button type="submit" variant="primary">Submit</b-button>
