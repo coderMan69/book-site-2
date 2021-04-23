@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="display-books">
     <!-- <div class="container"> -->
     <div class="row">
       <div class="col" />
@@ -47,10 +47,11 @@
       >
         <b-modal
           :id="book.title"
+          class="b-modal"
           centered
-          hide-backdrop
           hide-footer
           hide-header
+          hide-backdrop
           content-class="shadow"
           body-bg-variant="dark"
           body-text-variant="light"
@@ -217,12 +218,24 @@ export default {
 
 <style>
 
+.display-books {
+  background: linear-gradient(90deg, #FFF, #FDFFE1 5%, #FDFFE1 95%, #FFF);
+}
+
+.modal-backdrop {
+  background-color: red;
+}
+
 .box {
   width: 15em;
   height: 22em;
 }
 
 .hov:hover {
+}
+
+  /*
+  Make item spin
   animation-name: rotate;
   animation-duration: 400ms;
 }
@@ -232,4 +245,5 @@ export default {
     transform: rotate(-360deg);
   }
 }
+*/
 </style>

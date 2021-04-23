@@ -1,12 +1,19 @@
 <template>
   <div>
-    <div>
-      <b-alert show v-show="showMessage">{{ message }}</b-alert>
-    </div>
-
-    <b-button v-b-modal.add-book-modal variant="outline-success" class="py-0" @click="removeMessage"
+    <div style="display: flex">
+      <b-button
+        v-b-modal.add-book-modal
+        variant="outline-success"
+        class="py-0 mr-3"
       >Add a Book</b-button
-    >
+      >
+      <b-alert
+        dismissible
+        fade
+        :show="dismissCountDown"
+        >{{ message }}</b-alert
+      >
+    </div>
     <b-modal
       ref="addBookModal"
       id="add-book-modal"
@@ -43,9 +50,12 @@
           >
             <li
               v-for="(item, index) in bookSearch"
+              v-show="index < 10"
               :key="index"
               :class="{ active: isActive(index) }"
               class="dropdown-item"
+              @click="suggestionClick(index)"
+              style="overflow: hidden"
             >
               {{ item.title }}
             </li>
@@ -155,11 +165,12 @@ export default {
   data() {
     return {
       message: '',
-      showMessage: false,
       selection: '',
       books: [],
       current: 0,
       showDropdown: false,
+      dissmissSecs: 15,
+      dismissCountDown: 0,
       /* Will need to add ability to upload a file if we want user to be
        able to add a book cover */
       book: {
@@ -182,11 +193,9 @@ export default {
         ? 'block'
         : 'none';
     },
-    // Is what has been typed equal to the beginning of any of the book titles
     bookSearch() {
       return this.books.filter(
-        (item) => item.title.substr(0, this.selection.length).toUpperCase()
-          === this.selection.toUpperCase(),
+        (item) => item.title.toLowerCase().includes(this.selection.toLowerCase()),
       );
     },
     addBookButton() {
@@ -217,8 +226,12 @@ export default {
       this.current = 0;
       this.showDropdown = true;
     },
-    removeMessage() {
-      this.showMessage = false;
+    suggestionClick(index) {
+      this.selection = this.bookSearch[index].title;
+      this.showDropdown = false;
+    },
+    showAlert() {
+      this.dismissCountDown = this.dissmissSecs;
     },
     allBooks() {
       const path = 'http://localhost:5000/books';
@@ -254,8 +267,8 @@ export default {
         .then((res) => {
           this.$emit('book-added');
           this.message = res.data.message;
-          this.showMessage = true;
           this.initExistingBook();
+          this.showAlert();
         })
         .catch((error) => {
           console.error(error);
@@ -280,7 +293,7 @@ export default {
       const path = 'http://localhost:5000/books';
       axios.post(path, payload).then((res) => {
         this.message = res.data.message;
-        this.showMessage = true;
+        this.showAlert();
         if (res.data.added) {
           this.$emit('book-added');
         }

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="old-paper">
     <div class=".col-md-4 mb-3">
-      <div class="card">
+      <div class="card display-user">
         <div class="card-body">
           <div class="d-flex flex-column align-items-center text-center">
             <b-container fluid="lg">
@@ -149,5 +149,12 @@ export default {
 </script>
 
 <style>
+  .display-user {
+    background: linear-gradient(#DDE0BF, #EBEBEB 5%, #fff 95%, #DDE0BF );
+  }
+
+  .old-paper {
+    background: linear-gradient(90deg, #FFF, #FDFFE1 5%, #FDFFE1 95%, #FFF);
+  }
 
 </style>
