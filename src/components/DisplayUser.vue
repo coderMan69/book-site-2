@@ -150,7 +150,7 @@ export default {
 
 <style>
   .display-user {
-    background: linear-gradient(#DDE0BF, #EBEBEB 5%, #fff 95%, #DDE0BF );
+    background: linear-gradient(#DDE0BF, #FCFCFC 5%, #FCFCFC 95%, #DDE0BF );
   }
 
   .old-paper {
