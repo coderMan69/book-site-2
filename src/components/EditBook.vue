@@ -1,51 +1,63 @@
 <template>
-    <div>
-        <b-button
-          v-b-modal="modalId"
-          @click="initBook"
-          variant="outline-dark"
-          class="mr-1">Edit Book</b-button>
-        <b-button @click="removeBook" variant="outline-danger">Remove Book</b-button>
-        <b-modal ref="editBookModal"
-                 :id="modalId"
-                 :title="modalTitle"
-                 hide-footer>
-            <b-form @submit="onSubmit" @reset="onReset">
-                <b-form-group id="form-title-group"
-                              label="Title:"
-                              label-for="form-title-input">
-                    <b-form-input id="form-title-input"
-                                  type="text"
-                                  :placeholder="book.title"
-                                  required
-                                  readonly>
-                    </b-form-input>
-                </b-form-group>
-                <b-form-group id="form-author-group"
-                              label="Author:"
-                              label-for="form-author-input">
-                    <b-form-input id="form-author-input"
-                                  type="text"
-                                  :placeholder="authorsString"
-                                  required
-                                  readonly>
-                    </b-form-input>
-                </b-form-group>
-                <b-form-group id="form-reading-group">
-                    <b-form-checkbox-group v-model="reading" id="form-checks">
-                        <b-form-checkbox value="true">Reading</b-form-checkbox>
-                    </b-form-checkbox-group>
-                </b-form-group>
-                <b-form-group id="form-read-group">
-                    <b-form-checkbox-group v-model="read" id="form-checks">
-                        <b-form-checkbox value="true">Finished</b-form-checkbox>
-                    </b-form-checkbox-group>
-                </b-form-group>
-                <b-button type="submit" variant="primary">Submit</b-button>
-                <b-button type="reset" variant="danger">Cancel</b-button>
-            </b-form>
-        </b-modal>
-    </div>
+  <div>
+    <b-button
+      v-b-modal="modalId"
+      @click="initBook"
+      style=""
+      variant="outline-dark"
+      class="mr-1 edit-button"
+      >Edit Book</b-button
+    >
+    <button
+      @click="removeBook"
+      class="remove-button"
+      >Remove Book</button
+    >
+    <b-modal ref="editBookModal" :id="modalId" :title="modalTitle" hide-footer>
+      <b-form @submit="onSubmit" @reset="onReset">
+        <b-form-group
+          id="form-title-group"
+          label="Title:"
+          label-for="form-title-input"
+        >
+          <b-form-input
+            id="form-title-input"
+            type="text"
+            :placeholder="book.title"
+            required
+            readonly
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-form-group
+          id="form-author-group"
+          label="Author:"
+          label-for="form-author-input"
+        >
+          <b-form-input
+            id="form-author-input"
+            type="text"
+            :placeholder="authorsString"
+            required
+            readonly
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-form-group id="form-reading-group">
+          <b-form-checkbox-group v-model="reading" id="form-checks">
+            <b-form-checkbox value="true">Reading</b-form-checkbox>
+          </b-form-checkbox-group>
+        </b-form-group>
+        <b-form-group id="form-read-group">
+          <b-form-checkbox-group v-model="read" id="form-checks">
+            <b-form-checkbox value="true">Finished</b-form-checkbox>
+          </b-form-checkbox-group>
+        </b-form-group>
+        <b-button type="submit" variant="primary">Submit</b-button>
+        <b-button type="reset" variant="danger" class="ml-1">Cancel</b-button>
+      </b-form>
+    </b-modal>
+  </div>
 </template>
 
 <script>
@@ -92,7 +104,8 @@ export default {
       const path = `http://localhost:5000/reader_book/${this.userId}/${this.book.id}`;
       this.read = [];
       this.reading = [];
-      axios.get(path)
+      axios
+        .get(path)
         .then((res) => {
           if (res.data.read) {
             this.read.push('true');
@@ -122,7 +135,8 @@ export default {
     },
     editBook(payload) {
       const path = 'http://localhost:5000/reader_book';
-      axios.put(path, payload)
+      axios
+        .put(path, payload)
         .then(() => {
           this.$emit('book-edited');
         })
@@ -141,7 +155,8 @@ export default {
         bookID: this.book.id,
       };
       console.log(payload);
-      axios.delete(path, { data: payload })
+      axios
+        .delete(path, { data: payload })
         .then(() => {
           this.$emit('book-edited');
         })
@@ -152,3 +167,28 @@ export default {
   },
 };
 </script>
+
+<style>
+  .edit-button {
+    background-color: #FFF;
+  }
+
+  .edit-button:hover {
+    color: #FFF;
+    background-color: #000;
+  }
+
+  .remove-button {
+    background-color: #FFF;
+    border: solid;
+    border-width: 1px;
+    padding: .4em;
+    border-radius: 8px;
+    transition: .5s;
+  }
+
+  .remove-button:hover {
+    color: #FFF;
+    background-color: #D00000;
+  }
+</style>
