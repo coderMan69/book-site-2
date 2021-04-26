@@ -169,17 +169,17 @@ export default {
 
 <style>
   .btn.btn-outline-dark {
-    background-color: #FFF;
+    background-color: #E9E9E9;
   }
 
   .remove-button {
-    background-color: #FFF;
     border: solid;
     border-width: 1px;
     padding: .4em;
     border-radius: 4px;
     transition: .3s;
     color: #D00000;
+    background-color: #E9E9E9;
     border-color: #D00000;
   }
 
