@@ -1,6 +1,7 @@
 <template>
   <div class="display-books">
-    <!-- <div class="container"> -->
+
+    <!-- Tabs -->
     <div class="row">
       <div class="col" />
       <div class="tabs col-6 text-center">
@@ -35,6 +36,8 @@
         <b-button @click="toggleDisplay">{{ displayFormat }}</b-button>
       </div>
     </div>
+
+    <!-- Cover Display -->
     <div
       style="display: flex; flex-wrap: wrap; justify-content: center"
       v-show="!showTable()"
@@ -68,7 +71,7 @@
         <h2>Author:</h2>
         <h2 v-for="(author, index) in book.author" :key=index><strong>{{ author }}</strong></h2>
         </b-modal>
-        <div class="border p-1 m-2">
+        <div class="p-1 m-2">
           <img
             :src="book.cover"
             :title="`${book.title}\n${authorToString(book)}`"
@@ -88,6 +91,7 @@
       </div>
     </div>
 
+    <!-- Table Display -->
     <div class="container-fluid" v-show="showTable()">
       <table id="BookTable" class="table table-hover">
         <thead>
@@ -219,16 +223,37 @@ export default {
 <style>
 
 .display-books {
-  background: linear-gradient(90deg, #FFF, #FDFFE1 5%, #FDFFE1 95%, #FFF);
-}
-
-.modal-backdrop {
-  background-color: red;
+  background-color: #CDCDCD !important;
 }
 
 .box {
   width: 15em;
   height: 22em;
+  box-shadow: 0px 0px 15px 3px;
+}
+
+.nav-link {
+  color: rgba(0,0,0,0.5);
+}
+
+.nav.nav-tabs {
+  border-color: rgba(0,0,0,0.6);
+}
+
+.nav-link:hover {
+  color: #465c8B;
+  border-color: #465C8B !important;
+}
+/*
+.nav-link.active {
+  color: #00F !important;
+}
+*/
+
+.nav.nav-tabs {
+  border-width: 1px;
+  border-color: #0F0F0F;
+
 }
 
 .hov:hover {

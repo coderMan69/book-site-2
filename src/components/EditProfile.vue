@@ -2,7 +2,7 @@
   <div>
     <b-button
       v-b-modal.edit-profile-modal
-      variant="outline-secondary"
+      variant="outline-light"
       class="py-0"
       @click="initUser"
       >Edit Profile</b-button

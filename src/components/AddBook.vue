@@ -3,7 +3,7 @@
     <div style="display: flex">
       <b-button
         v-b-modal.add-book-modal
-        variant="outline-success"
+        variant="outline-light"
         class="py-0 mr-3"
       >Add a Book</b-button
       >

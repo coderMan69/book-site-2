@@ -3,9 +3,8 @@
     <b-button
       v-b-modal="modalId"
       @click="initBook"
-      style=""
       variant="outline-dark"
-      class="mr-1 edit-button"
+      class="mr-1"
       >Edit Book</b-button
     >
     <button
@@ -169,13 +168,8 @@ export default {
 </script>
 
 <style>
-  .edit-button {
+  .btn.btn-outline-dark {
     background-color: #FFF;
-  }
-
-  .edit-button:hover {
-    color: #FFF;
-    background-color: #000;
   }
 
   .remove-button {
@@ -183,8 +177,10 @@ export default {
     border: solid;
     border-width: 1px;
     padding: .4em;
-    border-radius: 8px;
-    transition: .5s;
+    border-radius: 4px;
+    transition: .3s;
+    color: #D00000;
+    border-color: #D00000;
   }
 
   .remove-button:hover {

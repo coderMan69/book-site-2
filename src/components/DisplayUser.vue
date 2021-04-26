@@ -11,7 +11,7 @@
                   fluid
                   :src="profilePhoto"
                   alt="Profile photo"
-                  class="mb-3"
+                  class="profile-photo mb-3"
                   rounded="circle"
                 />
               </a>
@@ -150,11 +150,24 @@ export default {
 
 <style>
   .display-user {
-    background: linear-gradient(#DDE0BF, #FCFCFC 5%, #FCFCFC 95%, #DDE0BF );
+    background: linear-gradient(75deg,  #E9E9E9, #99D3Df);
   }
 
   .old-paper {
-    background: linear-gradient(90deg, #FFF, #FDFFE1 5%, #FDFFE1 95%, #FFF);
+    background: linear-gradient(75deg,#99D3DF, #E9E9E9);
+  }
+
+  .profile-photo {
+    width: 10em;
+    height: 100%;
+  }
+
+  h1 {
+    font-size: 2rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
   }
 
 </style>
