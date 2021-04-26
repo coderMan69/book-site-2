@@ -4,7 +4,7 @@
     <!-- Tabs -->
     <div class="row">
       <div class="col" />
-      <div class="tabs col-6 text-center">
+      <div class="tabs col-9 text-center">
         <b-nav tabs align="center">
           <b-nav-item
             id="reading"
@@ -236,8 +236,13 @@ export default {
   color: rgba(0,0,0,0.5);
 }
 
+.nav-link.active {
+  background-color: #E9E9E9 !important;
+  border-color: #E9E9E9 !important;
+}
+
 .nav.nav-tabs {
-  border-color: rgba(0,0,0,0.6);
+  border-color: #E9E9E9 !important;
 }
 
 .nav-link:hover {
