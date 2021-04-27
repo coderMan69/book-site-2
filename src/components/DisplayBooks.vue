@@ -228,7 +228,7 @@ export default {
 <style>
 
 .display-books {
-  background-color: #e4e6c3 !important;
+  background-color: #252422 !important;
 }
 
 .box {
@@ -238,27 +238,27 @@ export default {
 }
 
 .nav-link {
-  color: #F05D23;
+  color: #F0F3F5;
 }
 
 .nav-link.active {
-  color: #E4E6c3 !important;
-  background-color: #F05D23 !important;
-  border-color: #F05D23 !important;
+  color: #F0F3F5 !important;
+  background-color: #C44536 !important;
+  border-color: #C44536 !important;
 }
 
 .nav.nav-tabs {
-  border-color: #F05D23 !important;
+  border-color: #C44536 !important;
 }
 
 .nav-link:hover {
-  color: #00487C;
-  border-color: #00497C !important;
+  color: #20A39E;
+  border-color: #20A39E !important;
 }
 
 #toggle-button {
-  background-color: #00487C;
-  color: #E4E6C3;
+  background-color: #252422;
+  color: #F0F3F5;
 }
 /*
 .nav-link.active {

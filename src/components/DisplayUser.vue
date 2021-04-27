@@ -150,11 +150,13 @@ export default {
 
 <style>
   .display-user {
-    background: linear-gradient(75deg,  #E4E6C3, #34E5FF);
+    /* background: linear-gradient(0deg, #E4E6C3, #34E5FF); */
+    background-color: #20A39E !important;
   }
 
   .old-paper {
-    background-color: #C5D86D;
+    background-color: #252422;
+    /*background: linear-gradient(#20A39E, #252422); */
   }
 
   .profile-photo {
@@ -163,11 +165,14 @@ export default {
   }
 
   h1 {
+    font-family: "Helvetica";
     font-size: 2rem !important;
+    color: #F0F3F5;
   }
 
   h2 {
     font-size: 1.5rem !important;
+    color: #F0F3F5;
   }
 
 </style>

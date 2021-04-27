@@ -172,13 +172,26 @@ export default {
 <style>
 
   #edit-button {
-    background-color: #E4E6C3;
-    border-color: #00487C;
-    color: #00487C;
+    background-color: #252422;
+    border-color: #B5F44A;
+    color: #F0F3F5;
+  }
+
+  #edit-button:hover {
+    background-color: #B5F44A;
+    color: #252422;
+    border-color: #F0F3F5;
   }
 
   #remove-button {
-    background-color: #E4E6C3;
+    color: #F0F3F5;
+    background-color: #252422;
+    border-color: #C44536
+  }
+
+  #remove-button:hover {
+    background-color: #C44536;
+    color: #252422;
   }
 
 </style>

@@ -2,6 +2,7 @@
   <div>
     <div style="display: flex">
       <b-button
+        id="add-button"
         v-b-modal.add-book-modal
         variant="outline-light"
         class="py-0 mr-3"
@@ -323,3 +324,17 @@ export default {
   },
 };
 </script>
+
+<style>
+
+  #add-button {
+    color: #F0F3F5;
+    border-color: #F0F3F5;
+  }
+
+  #add-button:hover {
+    color: #20A39E;
+    border-color: #20A39E;
+  }
+
+</style>
