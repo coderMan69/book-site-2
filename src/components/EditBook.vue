@@ -1,16 +1,18 @@
 <template>
   <div>
     <b-button
+      id="edit-button"
       v-b-modal="modalId"
       @click="initBook"
       variant="outline-dark"
       class="mr-1"
       >Edit Book</b-button
     >
-    <button
+    <b-button
+    id="remove-button"
+      variant="outline-danger"
       @click="removeBook"
-      class="remove-button"
-      >Remove Book</button
+      >Remove Book</b-button
     >
     <b-modal ref="editBookModal" :id="modalId" :title="modalTitle" hide-footer>
       <b-form @submit="onSubmit" @reset="onReset">
@@ -168,23 +170,15 @@ export default {
 </script>
 
 <style>
-  .btn.btn-outline-dark {
-    background-color: #E9E9E9;
+
+  #edit-button {
+    background-color: #E4E6C3;
+    border-color: #00487C;
+    color: #00487C;
   }
 
-  .remove-button {
-    border: solid;
-    border-width: 1px;
-    padding: .4em;
-    border-radius: 4px;
-    transition: .3s;
-    color: #D00000;
-    background-color: #E9E9E9;
-    border-color: #D00000;
+  #remove-button {
+    background-color: #E4E6C3;
   }
 
-  .remove-button:hover {
-    color: #FFF;
-    background-color: #D00000;
-  }
 </style>

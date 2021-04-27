@@ -150,11 +150,11 @@ export default {
 
 <style>
   .display-user {
-    background: linear-gradient(75deg,  #E9E9E9, #99D3Df);
+    background: linear-gradient(75deg,  #E4E6C3, #34E5FF);
   }
 
   .old-paper {
-    background: linear-gradient(75deg,#99D3DF, #E9E9E9);
+    background-color: #C5D86D;
   }
 
   .profile-photo {

@@ -2,7 +2,7 @@
   <div class="display-books">
 
     <!-- Tabs -->
-    <div class="row">
+    <div class="row pt-2">
       <div class="col" />
       <div class="tabs col-9 text-center">
         <b-nav tabs align="center">
@@ -33,7 +33,12 @@
         </b-nav>
       </div>
       <div class="col text-right mr-3">
-        <b-button @click="toggleDisplay">{{ displayFormat }}</b-button>
+        <b-button
+          id="toggle-button"
+          @click="toggleDisplay"
+        >
+          {{ displayFormat }}
+        </b-button>
       </div>
     </div>
 
@@ -45,7 +50,7 @@
       <div
         v-for="(book, index) in books"
         :key="index"
-        class="mt-3 hov"
+        class="mt-3"
         v-show="showBook(book)"
       >
         <b-modal
@@ -223,7 +228,7 @@ export default {
 <style>
 
 .display-books {
-  background-color: #CDCDCD !important;
+  background-color: #e4e6c3 !important;
 }
 
 .box {
@@ -233,21 +238,27 @@ export default {
 }
 
 .nav-link {
-  color: rgba(0,0,0,0.5);
+  color: #F05D23;
 }
 
 .nav-link.active {
-  background-color: #E9E9E9 !important;
-  border-color: #E9E9E9 !important;
+  color: #E4E6c3 !important;
+  background-color: #F05D23 !important;
+  border-color: #F05D23 !important;
 }
 
 .nav.nav-tabs {
-  border-color: #E9E9E9 !important;
+  border-color: #F05D23 !important;
 }
 
 .nav-link:hover {
-  color: #465c8B;
-  border-color: #465C8B !important;
+  color: #00487C;
+  border-color: #00497C !important;
+}
+
+#toggle-button {
+  background-color: #00487C;
+  color: #E4E6C3;
 }
 /*
 .nav-link.active {
@@ -261,19 +272,4 @@ export default {
 
 }
 
-.hov:hover {
-}
-
-  /*
-  Make item spin
-  animation-name: rotate;
-  animation-duration: 400ms;
-}
-
-@keyframes rotate {
-  100% {
-    transform: rotate(-360deg);
-  }
-}
-*/
 </style>
