@@ -180,7 +180,6 @@ export default {
   #edit-button:hover {
     background-color: #B5F44A;
     color: #252422;
-    border-color: #F0F3F5;
   }
 
   #remove-button {

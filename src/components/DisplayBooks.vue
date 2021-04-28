@@ -97,8 +97,8 @@
     </div>
 
     <!-- Table Display -->
-    <div class="container-fluid" v-show="showTable()">
-      <table id="BookTable" class="table table-hover">
+    <div class="container-fluid mt-3" v-show="showTable()">
+      <table id="BookTable" class="table table-hover" style="color: #F0F3F5">
         <thead>
           <tr>
             <th>Title</th>
@@ -112,6 +112,7 @@
             v-for="(book, index) in books"
             :key="index"
             v-show="showBook(book)"
+            class="table-row-content"
           >
             <td>{{ book.title }}</td>
             <td>
@@ -127,11 +128,13 @@
                     :src="book.cover"
                     :title="`${book.title}\n${book.author}`"
                     :alt="book.title"
+                    class="box"
                   />
                   <img
                     v-else
                     :src="noCover"
                     :alt="book.title"
+                    class="box"
                     :title="`${book.title}\n${book.author}`"
                   />
                 </a>
@@ -235,6 +238,11 @@ export default {
   width: 15em;
   height: 22em;
   box-shadow: 0px 0px 15px 3px;
+  color: #20A39E;
+}
+
+.table-row-content:hover {
+  color: #20A39E !important;
 }
 
 .nav-link {
