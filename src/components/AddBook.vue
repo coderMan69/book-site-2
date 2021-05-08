@@ -51,7 +51,6 @@
           >
             <li
               v-for="(item, index) in bookSearch"
-              v-show="index < 10"
               :key="index"
               :class="{ active: isActive(index) }"
               class="dropdown-item"
@@ -197,7 +196,7 @@ export default {
     bookSearch() {
       return this.books.filter(
         (item) => item.title.toLowerCase().includes(this.selection.toLowerCase()),
-      );
+      ).slice(0, 20);
     },
     addBookButton() {
       return this.selection.length > 0 && this.bookSearch.length === 0;
