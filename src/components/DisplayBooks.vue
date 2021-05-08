@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <!-- <div class="container"> -->
-    <div class="row">
+  <div class="display-books">
+
+    <!-- Tabs -->
+    <div class="row pt-2">
       <div class="col" />
-      <div class="tabs col-6 text-center">
+      <div class="tabs col-9 text-center">
         <b-nav tabs align="center">
           <b-nav-item
             id="reading"
@@ -32,9 +33,16 @@
         </b-nav>
       </div>
       <div class="col text-right mr-3">
-        <b-button @click="toggleDisplay">{{ displayFormat }}</b-button>
+        <b-button
+          id="toggle-button"
+          @click="toggleDisplay"
+        >
+          {{ displayFormat }}
+        </b-button>
       </div>
     </div>
+
+    <!-- Cover Display -->
     <div
       style="display: flex; flex-wrap: wrap; justify-content: center"
       v-show="!showTable()"
@@ -42,15 +50,16 @@
       <div
         v-for="(book, index) in books"
         :key="index"
-        class="mt-3 hov"
+        class="mt-3"
         v-show="showBook(book)"
       >
         <b-modal
           :id="book.title"
+          class="b-modal"
           centered
-          hide-backdrop
           hide-footer
           hide-header
+          hide-backdrop
           content-class="shadow"
           body-bg-variant="dark"
           body-text-variant="light"
@@ -67,7 +76,7 @@
         <h2>Author:</h2>
         <h2 v-for="(author, index) in book.author" :key=index><strong>{{ author }}</strong></h2>
         </b-modal>
-        <div class="border p-1 m-2">
+        <div class="p-1 m-2">
           <img
             :src="book.cover"
             :title="`${book.title}\n${authorToString(book)}`"
@@ -87,8 +96,9 @@
       </div>
     </div>
 
-    <div class="container-fluid" v-show="showTable()">
-      <table id="BookTable" class="table table-hover">
+    <!-- Table Display -->
+    <div class="container-fluid mt-3" v-show="showTable()">
+      <table id="BookTable" class="table table-hover" style="color: #F0F3F5">
         <thead>
           <tr>
             <th>Title</th>
@@ -102,6 +112,7 @@
             v-for="(book, index) in books"
             :key="index"
             v-show="showBook(book)"
+            class="table-row-content"
           >
             <td>{{ book.title }}</td>
             <td>
@@ -117,11 +128,13 @@
                     :src="book.cover"
                     :title="`${book.title}\n${book.author}`"
                     :alt="book.title"
+                    class="box"
                   />
                   <img
                     v-else
                     :src="noCover"
                     :alt="book.title"
+                    class="box"
                     :title="`${book.title}\n${book.author}`"
                   />
                 </a>
@@ -217,19 +230,54 @@ export default {
 
 <style>
 
+.display-books {
+  background-color: #252422 !important;
+}
+
 .box {
   width: 15em;
   height: 22em;
+  box-shadow: 0px 0px 15px 3px;
+  color: #20A39E;
 }
 
-.hov:hover {
-  animation-name: rotate;
-  animation-duration: 400ms;
+.table-row-content:hover {
+  color: #20A39E !important;
 }
 
-@keyframes rotate {
-  100% {
-    transform: rotate(-360deg);
-  }
+.nav-link {
+  color: #F0F3F5;
 }
+
+.nav-link.active {
+  color: #F0F3F5 !important;
+  background-color: #C44536 !important;
+  border-color: #C44536 !important;
+}
+
+.nav.nav-tabs {
+  border-color: #C44536 !important;
+}
+
+.nav-link:hover {
+  color: #20A39E;
+  border-color: #20A39E !important;
+}
+
+#toggle-button {
+  background-color: #252422;
+  color: #F0F3F5;
+}
+/*
+.nav-link.active {
+  color: #00F !important;
+}
+*/
+
+.nav.nav-tabs {
+  border-width: 1px;
+  border-color: #0F0F0F;
+
+}
+
 </style>

@@ -1,8 +1,9 @@
 <template>
   <div>
     <b-button
+      id="edit-profile-button"
       v-b-modal.edit-profile-modal
-      variant="outline-secondary"
+      variant="outline-light"
       class="py-0"
       @click="initUser"
       >Edit Profile</b-button
@@ -129,3 +130,17 @@ export default {
   },
 };
 </script>
+
+<style>
+
+  #edit-profile-button {
+    color: #F0F3F5;
+    border-color: #F0F3F5;
+  }
+
+  #edit-profile-button:hover {
+    color: #20A39E;
+    border-color: #20A39E;
+  }
+
+</style>

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="old-paper">
     <div class=".col-md-4 mb-3">
-      <div class="card">
+      <div class="card display-user">
         <div class="card-body">
           <div class="d-flex flex-column align-items-center text-center">
             <b-container fluid="lg">
@@ -11,7 +11,7 @@
                   fluid
                   :src="profilePhoto"
                   alt="Profile photo"
-                  class="mb-3"
+                  class="profile-photo mb-3"
                   rounded="circle"
                 />
               </a>
@@ -149,5 +149,30 @@ export default {
 </script>
 
 <style>
+  .display-user {
+    /* background: linear-gradient(0deg, #E4E6C3, #34E5FF); */
+    background-color: #20A39E !important;
+  }
+
+  .old-paper {
+    background-color: #252422;
+    /*background: linear-gradient(#20A39E, #252422); */
+  }
+
+  .profile-photo {
+    width: 10em;
+    height: 100%;
+  }
+
+  h1 {
+    font-family: "Helvetica";
+    font-size: 2rem !important;
+    color: #F0F3F5;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+    color: #F0F3F5;
+  }
 
 </style>
