@@ -8,6 +8,7 @@ node_modules
 .env.*.local
 server/utils.py
 server/get-gutenberg-books.py
+booksite/__pycache__/*
 
 # Log files
 npm-debug.log*

@@ -1,19 +1,9 @@
-from flask import Flask, jsonify, request, redirect, url_for
-from flask_cors import CORS
+from booksite import app
+from flask import request, jsonify
 import uuid
 from datetime import datetime
 import mysql.connector
 import json
-
-# configuration
-DEBUG = True
-
-# instantiate the app
-app = Flask(__name__)
-app.config.from_object(__name__)
-
-# enable CORS
-CORS(app, resources={r'/*': {'origins': '*'}})
 
 class Book:
 
@@ -321,6 +311,3 @@ def authenticate_user():
 
     # if the above check passes, then we know the user has the right credentials
     return {'user_id': user_id, 'status': 200}
-
-if __name__ == '__main__':
-    app.run()
