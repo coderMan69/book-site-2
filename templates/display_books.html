@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="display-books">
+    <!-- Tabs -->
+    <div class="row pt-2">
+      <div class="col" />
+      <div class="tabs col-9 text-center">
+        <b-nav tabs align="center">
+          <input type="checkbox" id="curr_reading" name="curr_reading">
+            <label for="curr_reading"> Currently Reading</label><br>
+          <input type="checkbox" id="finished" name="finished">
+            <label for="finished"> Finished</label><br>
+          <!-- <b-nav-item
+            id="all"
+            to="#all"
+            :active="$route.hash === '#all' || $route.hash === ''"
+            v-on:click="changedisplayBooksMode(0)"
+          >
+            All Books
+          </b-nav-item> -->
+        </b-nav>
+      </div>
+      <!-- <div class="col text-right mr-3">
+        <b-button
+          id="toggle-button"
+          @click="toggleDisplay"
+        >
+          {{ displayFormat }}
+        </b-button>
+      </div> -->
+    </div>
+
+    <!-- Cover Display -->
+    <div
+      style="display: flex; flex-wrap: wrap; justify-content: center"
+      v-show="!showTable()"
+    >
+      <div
+        v-for="(book, index) in books"
+        :key="index"
+        class="mt-3"
+        v-show="showBook(book)"
+      >
+        <b-modal
+          :id="book.title"
+          class="b-modal"
+          centered
+          hide-footer
+          hide-header
+          hide-backdrop
+          content-class="shadow"
+          body-bg-variant="dark"
+          body-text-variant="light"
+          size="xl"
+        >
+        <b-img
+          right
+          class="pl-2"
+          :src="book.cover"
+          :alt="book.title"
+        />
+        <h2>Title:</h2>
+        <h2><strong>{{ book.title }}</strong></h2>
+        <h2>Author:</h2>
+        <h2 v-for="(author, index) in book.author" :key=index><strong>{{ author }}</strong></h2>
+        </b-modal>
+        <div class="p-1 m-2">
+          <img
+            :src="book.cover"
+            :title="`${book.title}\n${authorToString(book)}`"
+            :alt="book.title"
+            class="box"
+            v-b-modal="book.title"
+          />
+          <!-- Need v-if to prevent double push of buttons -->
+          <EditBook
+            @book-edited="emit"
+            :book="book"
+            :userId="userID"
+            v-if="!showTable()"
+            class="mt-2"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table Display -->
+    <div class="container-fluid mt-3" v-show="showTable()">
+      <table id="BookTable" class="table table-hover" style="color: #F0F3F5">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Cover</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(book, index) in books"
+            :key="index"
+            v-show="showBook(book)"
+            class="table-row-content"
+          >
+            <td>{{ book.title }}</td>
+            <td>
+              <span v-for="(author, index) in book.author" :key="index">
+                {{ author }}<br />
+              </span>
+            </td>
+            <td>
+              <div class="box">
+                <a href="#">
+                  <img
+                    v-if="book.cover"
+                    :src="book.cover"
+                    :title="`${book.title}\n${book.author}`"
+                    :alt="book.title"
+                    class="box"
+                  />
+                  <img
+                    v-else
+                    :src="noCover"
+                    :alt="book.title"
+                    class="box"
+                    :title="`${book.title}\n${book.author}`"
+                  />
+                </a>
+              </div>
+            </td>
+            <td>
+              <!-- Need v-if to prevent double push of buttons -->
+              <EditBook
+                @book-edited="emit"
+                :book="book"
+                :userId="userID"
+                v-if="showTable()"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal fade" id="modal1">Hello</div>
+  </div>
+{% endblock content %}
